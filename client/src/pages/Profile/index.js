@@ -1,5 +1,6 @@
 import React from "react";
 import { Route, Link } from "react-router-dom";
+import PropTypes from "prop-types";
 
 import { PageProfile, Content } from "./styles";
 import { Posts, Igtv, Saved, Tagged } from "../../constants/svgs";
@@ -37,8 +38,9 @@ const showRoutes = (routes) => {
   return result;
 };
 
-export default function (props) {
-  const { username } = props.match.params;
+function Profile(props) {
+  const { match } = props;
+  const { username } = match.params;
 
   return (
     <PageProfile>
@@ -66,3 +68,9 @@ export default function (props) {
     </PageProfile>
   );
 }
+
+Profile.propTypes = {
+  match: PropTypes.object,
+};
+
+export default Profile;

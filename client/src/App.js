@@ -1,17 +1,40 @@
 import React from "react";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { Switch, Route } from "react-router-dom";
 import { Provider } from "react-redux";
+import { ConnectedRouter } from "connected-react-router";
+import { ToastContainer } from "react-toastify";
 
+import "react-toastify/dist/ReactToastify.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 
-import configStore from "./redux/configStore";
-import { HOME_ROUTES } from "./constants/routes";
+import { configStore, history } from "./redux/configStore";
+import { HOME_ROUTES, AUTH_ROUTES } from "./constants/routes";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Loading from "./components/Loading";
+import { checkAuth } from "./actions/auth";
+import PrivateRoute from "./components/PrivateRoute";
 
-const showRoutes = (routes) => {
+const showPrivateRoute = (routes) => {
+  let result = null;
+  if (routes.length > 0) {
+    result = routes.map((route, index) => {
+      return (
+        <PrivateRoute
+          key={index}
+          path={route.path}
+          name={route.name}
+          exact={route.exact}
+          component={route.component}
+        />
+      );
+    });
+  }
+  return result;
+};
+
+const showPublicRoute = (routes) => {
   let result = null;
   if (routes.length > 0) {
     result = routes.map((route, index) => {
@@ -31,16 +54,21 @@ const showRoutes = (routes) => {
 
 function App() {
   const store = configStore();
+  store.dispatch(checkAuth());
   return (
     <Provider store={store}>
-      <Router>
+      <ConnectedRouter history={history}>
         <Header />
         <main>
-          <Switch>{showRoutes(HOME_ROUTES)}</Switch>
+          <Switch>
+            {showPublicRoute(AUTH_ROUTES)}
+            {showPrivateRoute(HOME_ROUTES)}
+          </Switch>
         </main>
         <Footer />
         <Loading />
-      </Router>
+      </ConnectedRouter>
+      <ToastContainer />
     </Provider>
   );
 }

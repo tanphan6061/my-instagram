@@ -45,3 +45,23 @@ export const TextArea = styled.textarea`
   flex-grow: 1;
   overflow: hidden;
 `;
+
+export const ColorActiveButton = styled.button`
+  color: #0095f6;
+  font-weight: bold;
+  outline: none;
+  border: 0;
+  background: #fff;
+`;
+
+export const Username = styled.span`
+  font-size: 14px;
+  color: #262626;
+  font-weight: 600;
+`;
+
+export const CreatedAt = styled.p`
+  color: #8e8e8e;
+  padding: 5px 0 0;
+  font-size: 11px;
+`;

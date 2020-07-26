@@ -12,29 +12,28 @@ import * as switchRouteAction from "../../actions/switchRoute";
 function Header(props) {
   const { switchRouteCreators } = props;
   const { switchRoute } = switchRouteCreators;
+
   return (
-    <>
-      <nav id="main-header">
-        <MainHeader>
-          <Link to="/">
-            <div
-              className="logo"
-              role="button"
-              tabIndex="0"
-              onClick={() => switchRoute("home")}
-            >
-              <img src={Logo} alt="Logo" />
-            </div>
-          </Link>
-          <div id="search">
-            <input type="text" />
-            <span className="searchIcon" />
-            <span className="textSearch">Search</span>
+    <nav id="main-header">
+      <MainHeader>
+        <Link to="/">
+          <div
+            className="logo"
+            role="button"
+            tabIndex="0"
+            onClick={() => switchRoute("home")}
+          >
+            <img src={Logo} alt="Logo" />
           </div>
-          <MainMenu />
-        </MainHeader>
-      </nav>
-    </>
+        </Link>
+        <div id="search">
+          <input type="text" />
+          <span className="searchIcon" />
+          <span className="textSearch">Search</span>
+        </div>
+        <MainMenu />
+      </MainHeader>
+    </nav>
   );
 }
 

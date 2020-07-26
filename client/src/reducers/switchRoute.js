@@ -7,9 +7,10 @@ const initialState = {
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case constants.SWITCH_ROUTE: {
+      const { name } = action.payload;
       return {
         ...state,
-        name: action.payload.name,
+        name,
       };
     }
 

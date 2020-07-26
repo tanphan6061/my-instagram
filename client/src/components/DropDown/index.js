@@ -1,14 +1,9 @@
-import React, { useState } from "react";
-import { bindActionCreators } from "redux";
-import { connect } from "react-redux";
+import React from "react";
 import { Dropdown, DropdownMenu, DropdownToggle } from "reactstrap";
 import PropTypes from "prop-types";
 
-import * as uiAction from "../../actions/ui";
-
 function DropDown(props) {
-  const { dropdown, uiActionCreators, children, src, classname } = props;
-  const { toggleDropdown } = uiActionCreators;
+  const { dropdown, children, src, classname, toggleDropdown } = props;
 
   return (
     <Dropdown isOpen={dropdown} toggle={toggleDropdown}>
@@ -31,23 +26,10 @@ function DropDown(props) {
 
 DropDown.propTypes = {
   dropdown: PropTypes.bool,
-  uiActionCreators: PropTypes.shape({
-    toggleDropdown: PropTypes.func,
-  }),
+  toggleDropdown: PropTypes.func,
   src: PropTypes.string,
   classname: PropTypes.string,
+  children: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
 };
 
-const mapStateToProps = (state) => {
-  return {
-    dropdown: state.ui.dropdown,
-  };
-};
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    uiActionCreators: bindActionCreators(uiAction, dispatch),
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(DropDown);
+export default DropDown;

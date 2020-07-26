@@ -40,10 +40,9 @@ export const SPAN = styled.span`
   color: #8e8e8e;
 `;
 
-export const Text = styled.p`
-  font-size: 12px;
-  font-weight: 400;
-  margin-top: 20px;
-  width: 100%;
-  color: #8e8e8e;
+export const SocialText = styled.div`
+  color: "#385185";
+  fontweight: "500";
+  fontsize: "15px";
+  marginleft: "10px";
 `;

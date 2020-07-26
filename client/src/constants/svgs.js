@@ -1,5 +1,3 @@
-import React from "react";
-
 import Home from "../assets/home.svg";
 import HomeActive from "../assets/homeActive.svg";
 import Inbox from "../assets/inbox.svg";

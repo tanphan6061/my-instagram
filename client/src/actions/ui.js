@@ -1,19 +1,13 @@
 import * as constants from "../constants/ui";
 
-export const showLoading = () => {
+export const toggleDropdownHeart = () => {
   return {
-    type: constants.SHOW_LOADING,
+    type: constants.TOGGLE_DROPDOWN_HEART,
   };
 };
 
-export const hideLoading = () => {
+export const toggleDropdownProfile = () => {
   return {
-    type: constants.HIDE_LOADING,
-  };
-};
-
-export const toggleDropdown = () => {
-  return {
-    type: constants.TOGGLE_DROPDOWN,
+    type: constants.TOGGLE_DROPDOWN_PROFILE,
   };
 };

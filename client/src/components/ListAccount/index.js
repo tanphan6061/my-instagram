@@ -1,18 +1,13 @@
 import React from "react";
 
-import { ListAccountContainer, EditImage, Direct } from "./styles";
+import { ListAccountContainer, EditImage, Direct, DirectText } from "./styles";
 import { Edit } from "../../constants/svgs";
-
-const directText = {
-  padding: "20px 0",
-  fontWeight: 500,
-};
 
 export default function () {
   return (
     <ListAccountContainer>
       <Direct>
-        <p style={directText}>Direct</p>
+        <DirectText>Direct</DirectText>
         <EditImage src={Edit} alt="edit" />
       </Direct>
       <div className="list-accounts" style={{ padding: "20px" }}>

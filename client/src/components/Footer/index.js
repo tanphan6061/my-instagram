@@ -40,9 +40,7 @@ export default function () {
           </ul>
         </div>
         <CopyRight>
-          <Text>
-            © 2020 INSTAGRAM FROM ["Nguyễn Quang Huy", "Phan Việt Tân"]
-          </Text>
+          <Text>© 2020 INSTAGRAM FROM [Nguyễn Quang Huy, Phan Việt Tân]</Text>
         </CopyRight>
       </div>
     </footer>

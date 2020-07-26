@@ -38,14 +38,14 @@ const signup = {
 };
 
 function Login(props) {
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const { AuthActionCreators } = props;
   const { login } = AuthActionCreators;
 
   const handleSubmitForm = (event) => {
     event.preventDefault();
-    login(email, password);
+    login(username, password);
   };
 
   return (
@@ -60,10 +60,10 @@ function Login(props) {
             <Form onSubmit={handleSubmitForm} style={{ width: "70%" }}>
               <Input
                 style={input}
-                type="email"
-                name="email"
-                placeholder="email"
-                onChange={(e) => setEmail(e.target.value)}
+                type="text"
+                name="username"
+                placeholder="Username"
+                onChange={(e) => setUsername(e.target.value)}
               />
               <Input
                 style={input}
@@ -100,7 +100,7 @@ function Login(props) {
           <FormContainer className="mt-3">
             <p>
               Don&apos;t have account?
-              <Link to="/" style={signup}>
+              <Link to="/signup" style={signup}>
                 Sign up
               </Link>
             </p>
