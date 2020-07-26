@@ -1,17 +1,11 @@
 import React from "react";
 
-import { Content, Text } from "./styles";
+import { Content, Text, CreatedAt } from "./styles";
 import { Heart, HeartLike, Comment, Inbox, Saved } from "../../constants/svgs";
 
 const comment = {
   color: "#8e8e8e",
   padding: "5px 0 0",
-};
-
-const created_at = {
-  color: "#8e8e8e",
-  padding: "5px 0 0",
-  fontSize: "11px",
 };
 
 export default function () {
@@ -43,7 +37,7 @@ export default function () {
           <span>@buivietthao cái ava huỳn thoại á</span>
         </div>
       </div>
-      <p style={created_at}>4 HOURS AGO</p>
+      <CreatedAt>4 HOURS AGO</CreatedAt>
     </Content>
   );
 }

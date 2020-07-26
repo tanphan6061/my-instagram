@@ -17,3 +17,8 @@ export const EditImage = styled.img`
   top: 19px;
   right: 12px;
 `;
+
+export const DirectText = styled.p`
+  padding: 20px 0;
+  font-weight: 500;
+`;

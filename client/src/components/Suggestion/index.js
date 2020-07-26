@@ -11,7 +11,10 @@ export default function () {
     <div className="sidebar-homepage">
       <div className="info d-flex align-items-center" style={pointer}>
         <div className="avatar" style={{ width: "20%" }}>
-          <img src="https://instagram.fadb2-1.fna.fbcdn.net/v/t51.2885-19/44884218_345707102882519_2446069589734326272_n.jpg?_nc_ht=instagram.fadb2-1.fna.fbcdn.net&_nc_ohc=fTIyv_ZY0jwAX8cU6Yd&oh=06aab4528829f4aece14ee52bf5416a8&oe=5F3B398F&ig_cache_key=YW5vbnltb3VzX3Byb2ZpbGVfcGlj.2" />
+          <img
+            alt="avatar"
+            src="https://instagram.fadb2-1.fna.fbcdn.net/v/t51.2885-19/44884218_345707102882519_2446069589734326272_n.jpg?_nc_ht=instagram.fadb2-1.fna.fbcdn.net&_nc_ohc=fTIyv_ZY0jwAX8cU6Yd&oh=06aab4528829f4aece14ee52bf5416a8&oe=5F3B398F&ig_cache_key=YW5vbnltb3VzX3Byb2ZpbGVfcGlj.2"
+          />
         </div>
         <div className="name" style={{ marginLeft: "15px" }}>
           <p style={{ fontSize: "14px", fontWeight: 500 }}>qnguyenhuy1999</p>

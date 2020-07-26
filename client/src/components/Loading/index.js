@@ -22,7 +22,7 @@ Loading.propTypes = {
 
 const mapStateToProps = (state) => {
   return {
-    showLoading: state.ui.loading,
+    showLoading: state.auth.loading,
   };
 };
 

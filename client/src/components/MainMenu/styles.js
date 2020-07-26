@@ -10,3 +10,9 @@ export const Button = styled.button`
   border-radius: 6px;
   font-size: 12px;
 `;
+
+export const ListUl = styled.ul`
+  margin: 0;
+  justify-content: center;
+  align-items: center;
+`;

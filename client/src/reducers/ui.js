@@ -1,28 +1,22 @@
 import * as constants from "../constants/ui";
 
 const initialState = {
-  loading: false,
-  dropdown: false,
+  dropdownHeart: false,
+  dropdownProfile: false,
 };
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case constants.SHOW_LOADING: {
+    case constants.TOGGLE_DROPDOWN_HEART: {
       return {
         ...state,
-        loading: true,
+        dropdownHeart: !state.dropdownHeart,
       };
     }
-    case constants.HIDE_LOADING: {
+    case constants.TOGGLE_DROPDOWN_PROFILE: {
       return {
         ...state,
-        loading: false,
-      };
-    }
-    case constants.TOGGLE_DROPDOWN: {
-      return {
-        ...state,
-        dropdown: !state.dropdown,
+        dropdownProfile: !state.dropdownProfile,
       };
     }
     default:

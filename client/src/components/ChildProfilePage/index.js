@@ -38,7 +38,7 @@ export default function () {
         setData({});
         break;
     }
-  }, []);
+  }, [name]);
 
   const styleP = { margin: "0 0 15px", ...data.style } || {
     margin: "0 0 15px",

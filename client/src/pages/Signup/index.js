@@ -1,13 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import { Input, Button } from "reactstrap";
+import { Input, Button, Form } from "reactstrap";
+import PropTypes from "prop-types";
 
-import { PageLogin, ContainerLoginForm, Form, Text } from "./styles";
+import { PageLogin, ContainerLoginForm, FormContainer, Text } from "./styles";
 import LoginLogo from "../../assets/login_logo.png";
+import * as authAction from "../../actions/auth";
 
 const input = {
   margin: "0 0 10px",
-  width: "70%",
+  width: "100%",
   background: "#fafafa",
   fontSize: "12px",
 };
@@ -15,7 +19,7 @@ const input = {
 const button = {
   background: "rgba(0,149,246,.3)",
   border: "none",
-  width: "70%",
+  width: "100%",
   fontSize: "14px",
 };
 
@@ -26,7 +30,21 @@ const signup = {
   marginLeft: "10px",
 };
 
-export default function () {
+function Signup(props) {
+  const { authActionCreators } = props;
+  const { register } = authActionCreators;
+
+  const [email, setEmail] = useState("");
+  const [fullname, setFullname] = useState("");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [date, setDate] = useState("");
+
+  const handleSubmitForm = (event) => {
+    event.preventDefault();
+    register(email, fullname, username, password, date);
+  };
+
   return (
     <PageLogin>
       <div className="image">
@@ -34,51 +52,79 @@ export default function () {
       </div>
       <ContainerLoginForm>
         <div>
-          <Form>
-            <h1 className="logo-login"></h1>
-            <Input
-              style={input}
-              type="email"
-              name="email"
-              placeholder="email"
-            />
-            <Input
-              style={input}
-              type="text"
-              name="fullname"
-              placeholder="Full name"
-            />
-            <Input
-              style={input}
-              type="text"
-              name="username"
-              placeholder="Username"
-            />
-            <Input
-              style={input}
-              type="password"
-              name="password"
-              placeholder="password"
-            />
-            <Button style={button} color="primary">
-              Sign Up
-            </Button>
+          <FormContainer>
+            <p className="logo-login" />
+            <Form onSubmit={handleSubmitForm} style={{ width: "70%" }}>
+              <Input
+                style={input}
+                type="email"
+                name="email"
+                placeholder="Email"
+                onChange={(e) => setEmail(e.target.value)}
+              />
+              <Input
+                style={input}
+                type="text"
+                name="fullname"
+                placeholder="Full name"
+                onChange={(e) => setFullname(e.target.value)}
+              />
+              <Input
+                style={input}
+                type="text"
+                name="username"
+                placeholder="Username"
+                onChange={(e) => setUsername(e.target.value)}
+              />
+              <Input
+                style={input}
+                type="password"
+                name="password"
+                placeholder="Password"
+                onChange={(e) => setPassword(e.target.value)}
+              />
+              <Input
+                style={input}
+                type="date"
+                name="date"
+                placeholder="DD-MM-YYYY"
+                onChange={(e) => setDate(e.target.value)}
+              />
 
-            <Text>
-              By signing up, you agree to our Terms , Data Policy and Cookies
-              Policy .
-            </Text>
-          </Form>
-          <Form className="mt-3">
+              <Button type="submit" color="primary" style={button}>
+                Sign Up
+              </Button>
+
+              <Text>
+                By signing up, you agree to our Terms , Data Policy and Cookies
+                Policy .
+              </Text>
+            </Form>
+          </FormContainer>
+          <FormContainer className="mt-3">
             <p>
               Have an account?
-              <Link to="/" style={signup}>
+              <Link to="/login" style={signup}>
                 Login
               </Link>
             </p>
-          </Form>
+          </FormContainer>
         </div>
       </ContainerLoginForm>
     </PageLogin>
   );
 }
+
+Signup.propTypes = {
+  authActionCreators: PropTypes.shape({
+    register: PropTypes.func,
+  }),
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    authActionCreators: bindActionCreators(authAction, dispatch),
+  };
+};
+
+export default connect(null, mapDispatchToProps)(Signup);

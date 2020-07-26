@@ -3,16 +3,11 @@ import DirectPage from "../pages/Direct";
 import ExplorePage from "../pages/Explore";
 import ProfilePage from "../pages/Profile";
 import LoginPage from "../pages/Login";
+import VerifyPage from "../pages/Verify";
 import SignupPage from "../pages/Signup";
 import ChildProfilePage from "../components/ChildProfilePage";
 
-export const HOME_ROUTES = [
-  {
-    path: "/",
-    name: "home",
-    exact: true,
-    component: HomePage,
-  },
+export const AUTH_ROUTES = [
   {
     path: "/login",
     name: "login",
@@ -22,6 +17,20 @@ export const HOME_ROUTES = [
     path: "/signup",
     name: "signup",
     component: SignupPage,
+  },
+  {
+    path: "/verify",
+    name: "verify",
+    component: VerifyPage,
+  },
+];
+
+export const HOME_ROUTES = [
+  {
+    path: "/",
+    name: "home",
+    exact: true,
+    component: HomePage,
   },
   {
     path: "/inbox",
@@ -38,6 +47,7 @@ export const HOME_ROUTES = [
   {
     path: "/:username",
     name: "profile",
+    exact: false,
     component: ProfilePage,
   },
 ];
