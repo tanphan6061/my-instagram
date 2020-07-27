@@ -18,7 +18,7 @@ module.exports.login = (req, res, next) => {
         username: Joi.string().max(40).insensitive(),
         password: Joi.string().required().insensitive(),
     });
-    const { error, value } = schema.validate(req.body);
+    const { error } = schema.validate(req.body);
     if (error) {
         return res.status(status.BAD_REQUEST).json({
             message: error.message,
@@ -53,7 +53,7 @@ module.exports.register = (req, res, next) => {
             })
             .required(),
     });
-    const { error, value } = schema.validate(req.body);
+    const { error } = schema.validate(req.body);
 
     if (error) {
         return res.status(status.BAD_REQUEST).json({
@@ -79,7 +79,7 @@ module.exports.verify = (req, res, next) => {
         code: Joi.string().insensitive().required(),
         username: Joi.string().insensitive().min(3).max(30),
     });
-    const { error, value } = schema.validate(req.body);
+    const { error } = schema.validate(req.body);
 
     if (error) {
         return res.status(status.BAD_REQUEST).json({
@@ -104,7 +104,7 @@ module.exports.resendCode = (req, res, next) => {
             }),
         username: Joi.string().insensitive().min(3).max(30),
     });
-    const { error, value } = schema.validate(req.body);
+    const { error } = schema.validate(req.body);
 
     if (error) {
         return res.status(status.BAD_REQUEST).json({
@@ -118,7 +118,7 @@ module.exports.refreshToken = (req, res, next) => {
     const schema = Joi.object({
         token: Joi.string().required(), // refresh token
     });
-    const { error, value } = schema.validate(req.body);
+    const { error } = schema.validate(req.body);
 
     if (error) {
         return res.status(status.BAD_REQUEST).json({
@@ -132,7 +132,7 @@ module.exports.logout = (req, res, next) => {
     const schema = Joi.object({
         token: Joi.string().required(), // refresh token
     });
-    const { error, value } = schema.validate(req.body);
+    const { error } = schema.validate(req.body);
 
     if (error) {
         return res.status(status.BAD_REQUEST).json({

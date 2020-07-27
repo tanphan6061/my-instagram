@@ -15,7 +15,7 @@ const verificationSchema = new mongoose.Schema(
         },
         time: {
             type: Number, // minute
-            default: 9999,
+            default: process.env.VERIFY_CODE_TIME_EXPIRED,
         },
     },
     {

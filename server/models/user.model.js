@@ -36,7 +36,7 @@ const userSchema = new mongoose.Schema(
         avatar: {
             type: String,
             default:
-                'https://res.cloudinary.com/binzlark/image/upload/v1595298130/my-instagram/avatar/person_paqs7g_j9pnws.png',
+                'https://res.cloudinary.com/binzlark/image/upload/v1595751014/my-instagram/avatars/person_paqs7g_y8gkjc.png',
         },
         date: {
             type: Date,
