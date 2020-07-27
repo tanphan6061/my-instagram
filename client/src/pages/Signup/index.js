@@ -17,7 +17,7 @@ const input = {
 };
 
 const button = {
-  background: "rgba(0,149,246,.3)",
+  background: "#0095f6",
   border: "none",
   width: "100%",
   fontSize: "14px",
@@ -91,7 +91,14 @@ function Signup(props) {
                 onChange={(e) => setDate(e.target.value)}
               />
 
-              <Button type="submit" color="primary" style={button}>
+              <Button
+                type="submit"
+                color="primary"
+                style={button}
+                disabled={
+                  !email || !username || !password || !fullname || !date
+                }
+              >
                 Sign Up
               </Button>
 

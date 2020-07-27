@@ -24,7 +24,7 @@ const input = {
 };
 
 const button = {
-  background: "rgba(0,149,246,.3)",
+  background: "#0095f6",
   border: "none",
   width: "100%",
   fontSize: "14px",
@@ -72,7 +72,12 @@ function Login(props) {
                 placeholder="password"
                 onChange={(e) => setPassword(e.target.value)}
               />
-              <Button style={button} type="submit" color="primary">
+              <Button
+                style={button}
+                type="submit"
+                color="primary"
+                disabled={!password || !username}
+              >
                 Log In
               </Button>
             </Form>
