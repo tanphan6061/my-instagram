@@ -14,6 +14,7 @@ module.exports = {
         'no-useless-catch': 0,
         'no-unused-vars': 1,
         'object-curly-newline': 1,
+        'no-console': 0,
         'newline-per-chained-call': [
             'error',
             {

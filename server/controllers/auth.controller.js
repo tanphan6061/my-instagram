@@ -15,7 +15,7 @@ shortid.characters(
 
 function generateAccessToken(id) {
     return jwt.sign({ id }, process.env.JWT_SECRET, {
-        expiresIn: '5m',
+        expiresIn: process.env.JWT_TIME_EXPIRED,
     });
 }
 
@@ -34,25 +34,30 @@ async function sendCode(user) {
 
 module.exports.login = async (req, res) => {
     const { username, email, password } = req.body;
+    if (!username && !email) {
+        return res.status(status.BAD_REQUEST).json({
+            message: 'Username or email is required',
+        });
+    }
     const user = await User.findOne({
         $or: [{ username }, { email }],
     }).select('_id username email password isActive');
 
     if (!user) {
-        return res.status(status.BAD_REQUEST).json({
+        return res.status(status.NOT_FOUND).json({
             message:
                 // eslint-disable-next-line quotes
                 "The username you entered doesn't belong to an account. Please check your username and try again.",
         });
     }
     if (!user.isActive) {
-        return res.status(status.UNAUTHORIZED).json({
+        return res.status(status.FORBIDDEN).json({
             message: 'Your account has not been activated',
         });
     }
     user.comparePassword(password, async (err, isMatch) => {
         if (!isMatch) {
-            return res.status(status.BAD_REQUEST).json({
+            return res.status(status.UNAUTHORIZED).json({
                 message:
                     'Sorry, your password is incorrect. Please check your password.',
             });
@@ -126,6 +131,11 @@ module.exports.register = async (req, res) => {
 
 module.exports.verify = async (req, res) => {
     const { email, username, code } = req.body;
+    if (!username && !email) {
+        return res.status(status.BAD_REQUEST).json({
+            message: 'Username or email is required',
+        });
+    }
     const user = await User.aggregate([
         {
             $match: {
@@ -201,15 +211,15 @@ module.exports.refreshToken = async (req, res) => {
     }
     try {
         const decoded = jwt.verify(token, process.env.JWT_REFRESH_SECRET);
-        const idUser = decoded.id;
+        const userId = decoded.id;
 
         const refreshTokens = await RefreshToken.findOne({
-            user: idUser,
+            user: userId,
         }).select('refreshTokens');
         const checkToken = refreshTokens.refreshTokens.includes(token);
 
         if (checkToken) {
-            const newAccessToken = generateAccessToken(idUser);
+            const newAccessToken = generateAccessToken(userId);
             return res.json({
                 accessToken: newAccessToken,
             });
@@ -231,10 +241,10 @@ module.exports.logout = async (req, res) => {
     }
     try {
         const decoded = jwt.verify(token, process.env.JWT_REFRESH_SECRET);
-        const idUser = decoded.id;
+        const userId = decoded.id;
         const removeToken = await RefreshToken.updateOne(
             {
-                user: idUser,
+                user: userId,
             },
             {
                 $pull: { refreshTokens: token },
@@ -257,6 +267,11 @@ module.exports.logout = async (req, res) => {
 
 module.exports.resendCode = async (req, res) => {
     const { email, username } = req.body;
+    if (!username && !email) {
+        return res.status(status.BAD_REQUEST).json({
+            message: 'Username or email is required',
+        });
+    }
     const user = await User.findOne({
         $or: [{ username }, { email }],
     });
