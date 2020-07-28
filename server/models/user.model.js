@@ -56,6 +56,27 @@ const userSchema = new mongoose.Schema(
             type: Boolean,
             default: false,
         },
+        postLikes: [
+            {
+                type: mongoose.Schema.Types.ObjectId,
+                required: true,
+                ref: 'Post',
+            },
+        ],
+        commentLikes: [
+            {
+                type: mongoose.Schema.Types.ObjectId,
+                required: true,
+                ref: 'Comment',
+            },
+        ],
+        commentReplyLikes: [
+            {
+                type: mongoose.Schema.Types.ObjectId,
+                required: true,
+                ref: 'CommentReply',
+            },
+        ],
     },
     {
         timestamps: true,
@@ -72,14 +93,6 @@ userSchema.pre('save', function (next) {
         user.password = hash;
         next();
     });
-
-    // bcrypt.genSalt(process.env.BCRYPT_HASH, function (err, salt) {
-    //     bcrypt.hash(user.password, salt, (err, hash) => {
-    //         if (err) throw err;
-    //         user.password = hash;
-    //         next();
-    //     });
-    // });
 });
 
 // eslint-disable-next-line func-names

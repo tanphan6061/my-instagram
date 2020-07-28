@@ -25,7 +25,7 @@ router.post('/like', validator.checkPostId, controller.likePost);
 /**
  * get a post by id
  */
-router.get('/get', validator.checkPostId, controller.getPost);
+router.post('/get', validator.checkPostId, controller.getPost);
 
 /**
  * delete a post by id
@@ -41,4 +41,8 @@ router.get(
     controller.getPosts,
 );
 
+/**
+ * Get list user already like the post
+ */
+router.post('/get-post-likes', validator.checkPostId, controller.getPostLikes);
 module.exports = router;
