@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const Post = require('../models/post.model');
 const PostLike = require('../models/postLike.model');
 const Comment = require('../models/comment.model');
+const User = require('../models/user.model');
 
 const lookup = [
     {
@@ -35,17 +36,24 @@ const lookup = [
 const project = {
     caption: 1,
     media: 1,
-    likes: {
-        $size: { $arrayElemAt: ['$likes.user_likes', 0] },
+    totalLikes: {
+        $size: { $arrayElemAt: ['$post_likes.user_likes', 0] },
     },
-    comments: {
+    limitLikes: {
+        $slice: ['$post_likes.user_likes', -1],
+    },
+    totalComments: {
         $size: '$comments',
+    },
+    limitComments: {
+        $slice: ['$comments', -2],
     },
     createdAt: 1,
     updatedAt: 1,
     'author._id': 1,
     'author.username': 1,
     'author.avatar': 1,
+    'author.fullname': 1,
 };
 
 module.exports.createPost = async (req, res) => {
@@ -87,8 +95,26 @@ module.exports.likePost = async (req, res) => {
                     { post: postId },
                     { $pull: { user_likes: req.userId } },
                 );
+
+                await User.findOneAndUpdate(
+                    {
+                        _id: req.userId,
+                    },
+                    {
+                        $pull: { postLikes: postId },
+                    },
+                );
                 return res.json({ postId, action: 'disliked' });
             }
+
+            await User.findOneAndUpdate(
+                {
+                    _id: req.userId,
+                },
+                {
+                    $push: { postLikes: postId },
+                },
+            );
             return res.json({ postId, action: 'liked' });
         })
         .catch((err) => {
@@ -172,24 +198,28 @@ module.exports.getPosts = async (req, res) => {
         },
         ...lookup,
         {
-            $project: {
-                media: 1,
-                created: 1,
-                caption: 1,
-                post_likes: {
-                    $size: {
-                        $arrayElemAt: ['$post_likes.user_likes', 0],
-                    },
-                },
-                comments: {
-                    $size: '$comments',
-                },
-                'author._id': 1,
-                'author.username': 1,
-                'author.fullname': 1,
-                'author.avatar': 1,
-            },
+            $project: project,
         },
     ]);
     res.json(posts);
+};
+
+module.exports.getPostLikes = async (req, res) => {
+    const { postId } = req.body;
+
+    try {
+        const postLike = await PostLike.find({
+            post: postId,
+        }).populate('user_likes.author', 'avatar fullname username');
+        if (postLike.length < 1) {
+            return res.status(status.NOT_FOUND).json({
+                message: 'Post not found',
+            });
+        }
+        return res.json({ postLike });
+    } catch (error) {
+        return res.status(status.INTERNAL_SERVER_ERROR).json({
+            message: error.message,
+        });
+    }
 };

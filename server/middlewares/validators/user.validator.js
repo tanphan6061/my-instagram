@@ -47,7 +47,6 @@ exports.getUserData = (req, res, next) => {
 exports.getDataByUserName = (req, res, next) => {
     const schema = Joi.object({
         username: Joi.string().required(),
-        profilePage: Joi.boolean().required(),
     });
     const { error } = schema.validate(req.body);
     if (error) {

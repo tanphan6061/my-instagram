@@ -31,9 +31,7 @@ module.exports.addAvatar = async (req, res) => {
 };
 
 module.exports.updateProfile = async (req, res) => {
-    const {
-        username, fullname, email, date, gender,
-    } = req.body;
+    const { username, fullname, email, date, gender } = req.body;
     try {
         const userCheck = await User.findOne({
             $and: [
@@ -114,7 +112,9 @@ module.exports.followerUser = async (req, res) => {
 
         // if follow it self
         if (userFollow.id === req.userId) {
-            return res.status(status.FORBIDDEN).json('Failed to follow');
+            return res.status(status.FORBIDDEN).json({
+                message: 'Failed to follow',
+            });
         }
 
         const following = await Following.updateOne(
@@ -261,7 +261,7 @@ module.exports.searchUserByUserName = async (req, res) => {
 };
 
 module.exports.getUserData = async (req, res, next) => {
-    let query = [
+    const query = [
         {
             $match: { _id: mongoose.Types.ObjectId(req.userId) },
         },
@@ -273,56 +273,32 @@ module.exports.getUserData = async (req, res, next) => {
                 as: 'followings',
             },
         },
+        {
+            $lookup: {
+                from: 'followers',
+                localField: '_id',
+                foreignField: 'user',
+                as: 'followers',
+            },
+        },
+        {
+            $project: {
+                fullname: 1,
+                username: 1,
+                email: 1,
+                avatar: 1,
+                following: {
+                    $arrayElemAt: ['$followings.followings', 0],
+                },
+                followers: {
+                    $arrayElemAt: ['$followers.followers', 0],
+                },
+                postLikes: 1,
+                commentLikes: 1,
+                commentReplyLikes: 1,
+            },
+        },
     ];
-
-    const { profilePage } = req.body;
-
-    if (profilePage) {
-        query = [
-            ...query,
-            {
-                $lookup: {
-                    from: 'followers',
-                    localField: '_id',
-                    foreignField: 'user',
-                    as: 'followers',
-                },
-            },
-            {
-                $project: {
-                    fullname: 1,
-                    username: 1,
-                    email: 1,
-                    avatar: 1,
-                    followings: {
-                        $size: {
-                            $arrayElemAt: ['$followings.followings', 0],
-                        },
-                    },
-                    followers: {
-                        $size: {
-                            $arrayElemAt: ['$followers.followers', 0],
-                        },
-                    },
-                },
-            },
-        ];
-    } else {
-        query = [
-            ...query,
-            {
-                $project: {
-                    username: 1,
-                    email: 1,
-                    fullname: 1,
-                    avatar: 1,
-                    following: {
-                        $arrayElemAt: ['$followings.followings', 0],
-                    },
-                },
-            },
-        ];
-    }
     try {
         const posts = await Post.find({
             author: req.userId,
@@ -332,8 +308,9 @@ module.exports.getUserData = async (req, res, next) => {
             ...user[0],
             postsCount: posts,
         };
-        req.body.user = data;
-        next();
+        return res.json({
+            user: data,
+        });
     } catch (err) {
         res.status(status.INTERNAL_SERVER_ERROR).json({
             message: err.message,
@@ -342,70 +319,70 @@ module.exports.getUserData = async (req, res, next) => {
 };
 
 module.exports.getUserPosts = async (req, res, next) => {
-    const { profilePage, user } = req.body;
-    if (profilePage) {
-        try {
-            const posts = await Post.aggregate([
-                {
-                    $match: {
-                        author: mongoose.Types.ObjectId(user._id),
-                    },
+    const { user } = req.body;
+    try {
+        const posts = await Post.aggregate([
+            {
+                $match: {
+                    author: mongoose.Types.ObjectId(user._id),
                 },
-                {
-                    $sort: {
-                        createdAt: -1,
-                    },
+            },
+            {
+                $sort: {
+                    createdAt: -1,
                 },
-                {
-                    $lookup: {
-                        from: 'users',
-                        localField: 'author',
-                        foreignField: '_id',
-                        as: 'author',
-                    },
+            },
+            {
+                $lookup: {
+                    from: 'users',
+                    localField: 'author',
+                    foreignField: '_id',
+                    as: 'author',
                 },
-                {
-                    $lookup: {
-                        from: 'post_likes',
-                        localField: 'post',
-                        foreignField: '_id',
-                        as: 'post_likes',
-                    },
+            },
+            {
+                $lookup: {
+                    from: 'post_likes',
+                    localField: '_id',
+                    foreignField: 'post',
+                    as: 'post_likes',
                 },
-                {
-                    $lookup: {
-                        from: 'comments',
-                        localField: 'post',
-                        foreignField: '_id',
-                        as: 'comments',
-                    },
+            },
+            {
+                $lookup: {
+                    from: 'comments',
+                    localField: '_id',
+                    foreignField: 'post',
+                    as: 'comments',
                 },
-                {
-                    $project: {
-                        media: 1,
-                        createdAt: 1,
-                        post_likes: {
-                            $size: {
-                                $ifNull: ['$post_likes', []],
-                            },
-                        },
-                        comments: {
-                            $size: {
-                                $ifNull: ['$comments', []],
-                            },
-                        },
-                        caption: 1,
-                        'author._id': 1,
-                        'author.username': 1,
+            },
+            {
+                $project: {
+                    media: 1,
+                    createdAt: 1,
+                    totalLikes: {
+                        $size: { $arrayElemAt: ['$post_likes.user_likes', 0] },
                     },
+                    limitLikes: {
+                        $slice: ['$post_likes.user_likes', -1],
+                    },
+                    totalComments: {
+                        $size: '$comments',
+                    },
+                    limitComments: {
+                        $slice: ['$comments', -2],
+                    },
+                    caption: 1,
+                    'author._id': 1,
+                    'author.username': 1,
                 },
-            ]);
-            req.body.user.posts = posts;
-        } catch (err) {
-            res.status(status.INTERNAL_SERVER_ERROR).json({
-                message: err.message,
-            });
-        }
+            },
+        ]);
+        req.body.user.posts = posts;
+    } catch (err) {
+        res.status(status.INTERNAL_SERVER_ERROR).json({
+            message: err.message,
+        });
     }
     next();
 };
@@ -462,11 +439,6 @@ module.exports.getDataByUserName = async (req, res, next) => {
             });
         }
         // eslint-disable-next-line
-        if (user[0]._id == req.userId) {
-            return res.json({
-                userLoggedIn: true,
-            });
-        }
         const posts = await Post.find({
             author: user[0]._id,
         }).countDocuments();

@@ -39,18 +39,12 @@ router.post('/followers', validator.checkUserId, controller.followerUser);
 /**
  * get data of use logged in
  */
-router.get(
-    '/get-user-data',
-    validator.getUserData,
-    controller.getUserData,
-    controller.getUserPosts,
-    controller.sendUserData,
-);
+router.get('/get-user-data', controller.getUserData);
 
 /**
  * get data of use by username
  */
-router.get(
+router.post(
     '/get-by-username',
     validator.getDataByUserName,
     controller.getDataByUserName,
@@ -61,7 +55,7 @@ router.get(
 /**
  * Search user by username (id username fullname avatar)
  */
-router.get(
+router.post(
     '/search-by-username',
     validator.searchByUsername,
     controller.searchUserByUserName,
@@ -70,7 +64,7 @@ router.get(
 /**
  * list users follower (id username fullname avatar)
  */
-router.get(
+router.post(
     '/get-users-follower',
     validator.checkUserId,
     controller.getUsersFollower,
@@ -79,7 +73,7 @@ router.get(
 /**
  * List users following
  */
-router.get(
+router.post(
     '/get-users-following',
     validator.checkUserId,
     controller.getUsersFollowing,
