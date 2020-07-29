@@ -4,9 +4,11 @@ import * as constants from "../constants/user";
 
 const initialState = {
   mainProfile: {},
-  userProfile: {},
-  search: [],
   followings: [],
+  userProfile: {},
+  userFollower: [],
+  userFollowing: [],
+  search: [],
 };
 
 const reducer = (state = initialState, action) => {
@@ -88,6 +90,42 @@ const reducer = (state = initialState, action) => {
     }
 
     case constants.GET_FOLLOWING_FAIL: {
+      const { error } = action.payload;
+      toast.error(error);
+      return state;
+    }
+
+    case constants.GET_FOLLOWING_USER: {
+      return state;
+    }
+
+    case constants.GET_FOLLOWING_USER_SUCCESS: {
+      const { data } = action.payload;
+      return {
+        ...state,
+        userFollowing: data,
+      };
+    }
+
+    case constants.GET_FOLLOWING_USER_FAIL: {
+      const { error } = action.payload;
+      toast.error(error);
+      return state;
+    }
+
+    case constants.GET_FOLLOWER_USER: {
+      return state;
+    }
+
+    case constants.GET_FOLLOWER_USER_SUCCESS: {
+      const { data } = action.payload;
+      return {
+        ...state,
+        userFollower: data,
+      };
+    }
+
+    case constants.GET_FOLLOWER_USER_FAIL: {
       const { error } = action.payload;
       toast.error(error);
       return state;

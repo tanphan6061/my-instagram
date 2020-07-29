@@ -23,7 +23,14 @@ const h1 = {
 };
 
 function UserInfoComponent(props) {
-  const { profile, listFollowings, isCurrentLogin, handleFollow } = props;
+  const {
+    profile,
+    listFollowings,
+    isCurrentLogin,
+    handleFollow,
+    toggleFollower,
+    toggleFollowing,
+  } = props;
 
   const checkIsFollow = (id) => {
     return listFollowings.findIndex((item) => item._id === id);
@@ -55,10 +62,15 @@ function UserInfoComponent(props) {
             <span>
               <strong>{profile.postsCount}</strong> posts
             </span>
-            <span style={followers}>
+            <span
+              style={followers}
+              role="button"
+              tabIndex={0}
+              onClick={toggleFollower}
+            >
               <strong>{profile.followers}</strong> followers
             </span>
-            <span>
+            <span role="button" tabIndex={0} onClick={toggleFollowing}>
               <strong>{profile.followings}</strong> following
             </span>
           </div>
@@ -84,6 +96,8 @@ UserInfoComponent.propTypes = {
   }),
   isCurrentLogin: PropTypes.bool,
   handleFollow: PropTypes.func,
+  toggleFollower: PropTypes.func,
+  toggleFollowing: PropTypes.func,
 };
 
 export default UserInfoComponent;

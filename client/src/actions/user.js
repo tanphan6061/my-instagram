@@ -122,3 +122,57 @@ export const getFollowingFail = (error) => {
     },
   };
 };
+
+export const getFollowingUser = (id) => {
+  return {
+    type: constants.GET_FOLLOWING_USER,
+    payload: {
+      id,
+    },
+  };
+};
+
+export const getFollowingUserSuccess = (data) => {
+  return {
+    type: constants.GET_FOLLOWING_USER_SUCCESS,
+    payload: {
+      data,
+    },
+  };
+};
+
+export const getFollowingUserFail = (error) => {
+  return {
+    type: constants.GET_FOLLOWING_USER_FAIL,
+    payload: {
+      error,
+    },
+  };
+};
+
+export const getFollowerUser = (id) => {
+  return {
+    type: constants.GET_FOLLOWER_USER,
+    payload: {
+      id,
+    },
+  };
+};
+
+export const getFollowerUserSuccess = (data) => {
+  return {
+    type: constants.GET_FOLLOWER_USER_SUCCESS,
+    payload: {
+      data,
+    },
+  };
+};
+
+export const getFollowerUserFail = (error) => {
+  return {
+    type: constants.GET_FOLLOWER_USER_FAIL,
+    payload: {
+      error,
+    },
+  };
+};

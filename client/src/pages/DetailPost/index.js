@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
@@ -25,6 +25,7 @@ import {
   MoreAction,
 } from "../../constants/svgs";
 import * as postAction from "../../actions/post";
+import * as commentAction from "../../actions/comment";
 
 const info = {
   display: "flex",
@@ -37,17 +38,33 @@ const avatar = {
 };
 
 function DetailPostPage(props) {
+  const [input, setInput] = useState("");
+  const [liked, setLiked] = useState(false);
   const inputElm = useRef();
-  const { match, postActionCreators, post } = props;
+  const {
+    match,
+    postActionCreators,
+    post,
+    postLikes,
+    commentActionCreators,
+  } = props;
   const { id } = match.params;
   const { getDetailPost, likePost } = postActionCreators;
+  const { addComment } = commentActionCreators;
 
   useEffect(() => {
     getDetailPost(id);
-  }, [id]);
+    setLiked(postLikes && postLikes.length > 0 && postLikes.indexOf(id) > -1);
+  }, [id, postLikes, getDetailPost]);
 
   const handleLikePost = () => {
     likePost(id, getDetailPost(id));
+    setLiked(!liked);
+  };
+
+  const handleSubmitComment = () => {
+    addComment(id, input, getDetailPost(id));
+    setInput("");
   };
 
   return (
@@ -103,7 +120,11 @@ function DetailPostPage(props) {
               </ShowAllComments>
               <div className="controls">
                 <div style={{ display: "flex" }}>
-                  <img src={Heart} alt="Like" onClick={handleLikePost} />
+                  <img
+                    src={liked ? HeartLike : Heart}
+                    alt="Like"
+                    onClick={handleLikePost}
+                  />
                   <img
                     src={Comment}
                     alt="Comment"
@@ -127,8 +148,17 @@ function DetailPostPage(props) {
               autoCorrect="off"
               placeholder="Add a comment..."
               ref={inputElm}
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
             />
-            <ColorActiveButton type="button">Post</ColorActiveButton>
+            <ColorActiveButton
+              type="button"
+              className="submit-comment"
+              disabled={!input}
+              onClick={handleSubmitComment}
+            >
+              Post
+            </ColorActiveButton>
           </Footer>
         </Article>
       </div>
@@ -138,10 +168,7 @@ function DetailPostPage(props) {
 
 DetailPostPage.propTypes = {
   match: PropTypes.object,
-  postActionCreators: PropTypes.shape({
-    getDetailPost: PropTypes.func,
-    likePost: PropTypes.func,
-  }),
+  postLikes: PropTypes.array,
   post: PropTypes.shape({
     _id: PropTypes.string,
     media: PropTypes.string,
@@ -152,10 +179,18 @@ DetailPostPage.propTypes = {
     totalLikes: PropTypes.number,
     createdAt: PropTypes.string,
   }),
+  postActionCreators: PropTypes.shape({
+    getDetailPost: PropTypes.func,
+    likePost: PropTypes.func,
+  }),
+  commentActionCreators: PropTypes.shape({
+    addComment: PropTypes.func,
+  }),
 };
 
 const mapStateToProps = (state) => {
   return {
+    postLikes: state.user.mainProfile.postLikes,
     post: state.posts.detailPost,
   };
 };
@@ -163,6 +198,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     postActionCreators: bindActionCreators(postAction, dispatch),
+    commentActionCreators: bindActionCreators(commentAction, dispatch),
   };
 };
 

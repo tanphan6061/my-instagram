@@ -1,14 +1,29 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { Route, Link } from "react-router-dom";
 import PropTypes from "prop-types";
 
-import { PageProfile, Content } from "./styles";
+import {
+  PageProfile,
+  Content,
+  Header,
+  Title,
+  ButtonClose,
+  AccountList,
+  AccountItem,
+  Info,
+  Avatar,
+  Name,
+  Username,
+  Fullname,
+  Follow,
+} from "./styles";
 import { Posts, Igtv, Saved, Tagged } from "../../constants/svgs";
 import { PROFILE_ROUTES } from "../../constants/routes";
 import UserInfo from "../../components/UserInfo";
 import ChildProfilePage from "../../components/ChildProfilePage";
+import Modal from "../../components/Modal";
 import * as userAction from "../../actions/user";
 
 const getSubRoutes = (username) => [
@@ -42,11 +57,15 @@ const showRoutes = (routes, posts) => {
 };
 
 function Profile(props) {
+  const [modalFollower, setModalFollower] = useState(false);
+  const [modalFollowing, setModalFollowing] = useState(false);
   const {
     match,
     mainProfile,
     userProfile,
     listFollowings,
+    userFollower,
+    userFollowing,
     userActionCreators,
   } = props;
   const { username } = match.params;
@@ -58,7 +77,10 @@ function Profile(props) {
     if (currentLogin !== username) {
       getProfileUser(username);
     }
-  }, [username]);
+  }, [username, currentLogin, getProfileUser]);
+
+  const toggleFollower = () => setModalFollower(!modalFollower);
+  const toggleFollowing = () => setModalFollowing(!modalFollowing);
 
   return (
     <PageProfile>
@@ -68,6 +90,8 @@ function Profile(props) {
         listFollowings={listFollowings}
         isCurrentLogin={currentLogin === username}
         handleFollow={follow}
+        toggleFollower={toggleFollower}
+        toggleFollowing={toggleFollowing}
       />
 
       <div className="d-flex justify-content-center mt-2 route-profile">
@@ -89,6 +113,62 @@ function Profile(props) {
       </div>
 
       <Content>{showRoutes(PROFILE_ROUTES, profile.posts)}</Content>
+      <Modal modal={modalFollower} toggle={toggleFollower}>
+        <Header>
+          <div />
+          <Title>Follower</Title>
+          <ButtonClose onClick={() => setModalFollower(false)}>
+            &Chi;
+          </ButtonClose>
+        </Header>
+        <AccountList onClick={() => setModalFollower(false)}>
+          {userFollower.length > 0 &&
+            userFollower.map((item, index) => (
+              <AccountItem key={index}>
+                <Link to={`/${item.username}`}>
+                  <Info>
+                    <Avatar className="avatar">
+                      <img src={item.avatar} alt="avatar" />
+                    </Avatar>
+                    <Name>
+                      <Username>{item.username}</Username>
+                      <Fullname>{item.fullname}</Fullname>
+                    </Name>
+                  </Info>
+                </Link>
+                {/* <Follow>Follow</Follow> */}
+              </AccountItem>
+            ))}
+        </AccountList>
+      </Modal>
+      <Modal modal={modalFollowing} toggle={toggleFollowing}>
+        <Header>
+          <div />
+          <Title>Following</Title>
+          <ButtonClose onClick={() => setModalFollowing(false)}>
+            &Chi;
+          </ButtonClose>
+        </Header>
+        <AccountList onClick={() => setModalFollowing(false)}>
+          {userFollowing.length > 0 &&
+            userFollowing.map((item, index) => (
+              <AccountItem key={index}>
+                <Link to={`/${item.username}`}>
+                  <Info>
+                    <Avatar className="avatar">
+                      <img src={item.avatar} alt="avatar" />
+                    </Avatar>
+                    <Name>
+                      <Username>{item.username}</Username>
+                      <Fullname>{item.fullname}</Fullname>
+                    </Name>
+                  </Info>
+                </Link>
+                {/* <Follow>Follow</Follow> */}
+              </AccountItem>
+            ))}
+        </AccountList>
+      </Modal>
     </PageProfile>
   );
 }
@@ -98,6 +178,8 @@ Profile.propTypes = {
   match: PropTypes.object,
   mainProfile: PropTypes.object,
   userProfile: PropTypes.object,
+  userFollower: PropTypes.array,
+  userFollowing: PropTypes.array,
   userActionCreators: PropTypes.shape({
     getProfileUser: PropTypes.func,
     follow: PropTypes.func,
@@ -109,6 +191,8 @@ const mapStateToProps = (state) => {
     mainProfile: state.user.mainProfile,
     userProfile: state.user.userProfile,
     listFollowings: state.user.followings,
+    userFollower: state.user.userFollower,
+    userFollowing: state.user.userFollowing,
   };
 };
 
