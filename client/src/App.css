@@ -18,9 +18,15 @@ a {
   text-decoration: none;
 }
 
+a:hover {
+  text-decoration: none;
+  color: #262626 !important;
+}
+
 img {
   display: block;
   width: 100%;
+  cursor: pointer;
 }
 
 body,
@@ -125,7 +131,7 @@ footer {
   flex-direction: column;
   min-width: 200px;
   left: -152px !important;
-  top: 2px !important;
+  top: -9px !important;
   box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.0975);
   z-index: 999;
 }
@@ -217,7 +223,6 @@ main {
 .post-item .description,
 .post-item .comment-item {
   display: flex;
-  align-items: center;
 }
 
 .post-item .description p,
@@ -252,6 +257,7 @@ main {
   right: 0;
   background: rgba(0, 0, 0, 0.3);
   z-index: 9;
+  cursor: pointer;
 }
 
 .overlay span {
@@ -314,4 +320,25 @@ main {
   background-position: -414px -259px;
   height: 16px;
   width: 16px;
+}
+
+.file-custom::before {
+  position: absolute;
+  top: -0.075rem;
+  right: -0.075rem;
+  bottom: -0.075rem;
+  z-index: 6;
+  display: block;
+  content: "Browse";
+  height: 2.5rem;
+  padding: 0.5rem 1rem;
+  line-height: 1.5;
+  color: #555;
+  background-color: #eee;
+  border: 0.075rem solid #ddd;
+  border-radius: 0 0.25rem 0.25rem 0;
+}
+
+.file-custom::after {
+  content: "Choose file...";
 }

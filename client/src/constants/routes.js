@@ -5,7 +5,8 @@ import ProfilePage from "../pages/Profile";
 import LoginPage from "../pages/Login";
 import VerifyPage from "../pages/Verify";
 import SignupPage from "../pages/Signup";
-import ChildProfilePage from "../components/ChildProfilePage";
+import DetailPostPage from "../pages/DetailPost";
+// import ChildProfilePage from "../components/ChildProfilePage";
 
 export const AUTH_ROUTES = [
   {
@@ -45,6 +46,12 @@ export const HOME_ROUTES = [
     component: ExplorePage,
   },
   {
+    path: "/p/:id",
+    name: "detailPost",
+    exact: false,
+    component: DetailPostPage,
+  },
+  {
     path: "/:username",
     name: "profile",
     exact: false,
@@ -54,22 +61,28 @@ export const HOME_ROUTES = [
 
 export const PROFILE_ROUTES = [
   {
+    path: "/:username/post",
+    name: "currentPost",
+    exact: false,
+    // component: ChildProfilePage,
+  },
+  {
     path: "/:username/channel",
     name: "channel",
-    exact: true,
-    component: ChildProfilePage,
+    exact: false,
+    // component: ChildProfilePage,
   },
   {
     path: "/:username/saved",
     name: "saved",
-    exact: true,
-    component: ChildProfilePage,
+    exact: false,
+    // component: ChildProfilePage,
   },
   {
     path: "/:username/tagged",
     name: "tagged",
-    exact: true,
-    component: ChildProfilePage,
+    exact: false,
+    // component: ChildProfilePage,
   },
 ];
 

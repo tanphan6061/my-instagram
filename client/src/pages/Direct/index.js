@@ -4,7 +4,7 @@ import { PageDirect } from "./styles";
 
 import ListAccount from "../../components/ListAccount/index";
 
-export default function () {
+export default function Direct() {
   return (
     <PageDirect>
       <ListAccount />

@@ -1,24 +1,45 @@
-import React from "react";
+import React, { useRef } from "react";
+import PropTypes from "prop-types";
 
 import { Article } from "./styles";
-
 import Header from "./Header";
 import Content from "./Content";
 import Footer from "./Footer";
 
-export default function () {
+function PostItem({ post }) {
+  const inputElm = useRef(null);
   return (
     <Article className="post-item">
-      <Header />
+      <Header author={post.author} />
       <div className="media">
-        <img
-          style={{ width: "100%" }}
-          src="https://instagram.fsgn5-4.fna.fbcdn.net/v/t51.2885-15/sh0.08/e35/s750x750/109309904_353487419145206_3310002649588987784_n.jpg?_nc_ht=instagram.fsgn5-4.fna.fbcdn.net&_nc_cat=102&_nc_ohc=JJIglriIRscAX83taAs&oh=12ccbd5f61fe5cd3321f2e7771d64856&oe=5F3B66E4"
-          alt="media"
-        />
+        <img style={{ width: "100%" }} src={post.media} alt="media" />
       </div>
-      <Content />
-      <Footer />
+      <Content
+        id={post._id}
+        caption={post.caption}
+        totalLikes={post.totalLikes}
+        totalComments={post.totalComments}
+        author={post.author}
+        comments={post.limitComments}
+        createdAt={post.createdAt}
+        inputElm={inputElm}
+      />
+      <Footer inputElm={inputElm} />
     </Article>
   );
 }
+
+PostItem.propTypes = {
+  post: PropTypes.shape({
+    _id: PropTypes.string,
+    author: PropTypes.array,
+    media: PropTypes.string,
+    caption: PropTypes.string,
+    totalLikes: PropTypes.number,
+    totalComments: PropTypes.number,
+    limitComments: PropTypes.array,
+    createdAt: PropTypes.string,
+  }),
+};
+
+export default PostItem;

@@ -135,9 +135,14 @@ module.exports.getPost = async (req, res) => {
             {
                 $match: { _id: mongoose.Types.ObjectId(postId) },
             },
-            ...lookup,
+            ...lookup,    
             {
-                $project: project,
+                $project: {
+                    ...project,  
+                    limitComments: {
+                        $slice: ['$comments', 999]
+                    }
+                },
             },
         ]);
         if (!post.length) {

@@ -34,3 +34,17 @@ export const EditProfile = styled.button`
   font-size: 14px;
   margin: 0 20px;
 `;
+
+export const FollowButton = styled.button`
+  background: #0095f6;
+  border: 1px solid #0095f6;
+  color: #fff;
+  font-weight: 600;
+  border-radius: 4px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 3px 15px;
+  font-size: 14px;
+  margin: 0 20px;
+`;

@@ -29,7 +29,10 @@ const reducer = (state = initalState, action) => {
       const refreshToken = localStorage.getItem("refreshToken");
 
       if (accessToken || refreshToken) return { ...state, auth: true };
-      return { ...state, auth: false };
+      return {
+        ...state,
+        auth: false,
+      };
     }
 
     case constants.LOGIN: {
@@ -75,6 +78,7 @@ const reducer = (state = initalState, action) => {
 
     case constants.REGISTER_SUCCESS: {
       const { data } = action.payload;
+      localStorage.setItem("username", data.username);
       return {
         ...state,
         loading: false,
@@ -100,6 +104,7 @@ const reducer = (state = initalState, action) => {
 
     case constants.VERIFY_SUCCESS: {
       const { data } = action.payload;
+      localStorage.clear();
       localStorage.setItem("accessToken", data.accessToken);
       localStorage.setItem("refreshToken", data.refreshToken);
       return {
@@ -138,6 +143,28 @@ const reducer = (state = initalState, action) => {
       return {
         ...state,
         loading: false,
+      };
+    }
+
+    case constants.REFRESH_TOKEN: {
+      return {
+        ...state,
+      };
+    }
+
+    case constants.REFRESH_TOKEN_SUCCESS: {
+      const { data } = action.payload;
+      localStorage.setItem("accessToken", data.accessToken);
+      return {
+        ...state,
+      };
+    }
+
+    case constants.REFRESH_TOKEN_FAIL: {
+      const { error } = action.payload;
+      toast.error(error);
+      return {
+        ...state,
       };
     }
 

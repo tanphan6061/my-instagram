@@ -4,7 +4,13 @@ const API_ENDPOINT = "http://localhost:8080/api";
 
 class AxiosService {
   constructor() {
-    const instance = axios.create({ baseURL: API_ENDPOINT });
+    const token = localStorage.getItem("accessToken") || "";
+    const instance = axios.create({
+      baseURL: API_ENDPOINT,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     instance.interceptors.response.use(this.handleSuccess, this.handleError);
     this.instance = instance;
   }

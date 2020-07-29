@@ -1,7 +1,9 @@
 import React from "react";
 
+import PropTypes from "prop-types";
+
 import { Setting } from "../../constants/svgs";
-import { UserInfo, Info, Username, EditProfile } from "./styles";
+import { UserInfo, Info, Username, EditProfile, FollowButton } from "./styles";
 
 const avatar = {
   width: "20%",
@@ -20,38 +22,68 @@ const h1 = {
   fontSize: "18px",
 };
 
-export default function () {
+function UserInfoComponent(props) {
+  const { profile, listFollowers, isCurrentLogin, handleFollow } = props;
+  console.log(listFollowers);
+  const checkIsFollow = (id) => {
+    return listFollowers.findIndex((item) => item._id === id);
+  };
+
   return (
-    <UserInfo>
-      <div className="avatar" style={avatar}>
-        <img
-          src="https://scontent-xsp1-1.cdninstagram.com/v/t51.2885-19/s320x320/103639626_933546613773813_6928448489305567355_n.jpg?_nc_ht=scontent-xsp1-1.cdninstagram.com&_nc_ohc=pIJdlumA_BkAX9-BhNC&oh=d55403d6771bec6f698ffc8fbc9c96fb&oe=5F3DB48A"
-          alt="avatar"
-        />
-      </div>
-      <Info>
-        <div className="header d-flex align-items-center">
-          <Username>qnguyenhuy1999</Username>
-          <EditProfile className="edit-profile">Edit Profile</EditProfile>
-          <div className="setting" style={setting}>
-            <img src={Setting} alt="setting" />
+    <>
+      <UserInfo>
+        <div className="avatar" style={avatar}>
+          <img src={profile.avatar} alt="avatar" />
+        </div>
+        <Info>
+          <div className="header d-flex align-items-center">
+            <Username>{profile.username}</Username>
+            {isCurrentLogin ? (
+              <>
+                <EditProfile className="edit-profile">Edit Profile</EditProfile>
+                <div className="setting" style={setting}>
+                  <img src={Setting} alt="setting" />
+                </div>
+              </>
+            ) : (
+              <FollowButton onClick={() => handleFollow(profile._id)}>
+                {checkIsFollow(profile._id) > -1 ? "Unfollow" : "Follow"}
+              </FollowButton>
+            )}
           </div>
-        </div>
-        <div className="content d-flex mt-2 mb-3">
-          <span>
-            <strong>0</strong> posts
-          </span>
-          <span style={followers}>
-            <strong>10</strong> followers
-          </span>
-          <span>
-            <strong>25</strong> following
-          </span>
-        </div>
-        <div className="footer">
-          <h1 style={h1}>Nguyen Quang Huy</h1>
-        </div>
-      </Info>
-    </UserInfo>
+          <div className="content d-flex mt-2 mb-3">
+            <span>
+              <strong>{profile.postsCount}</strong> posts
+            </span>
+            <span style={followers}>
+              <strong>{profile.followers}</strong> followers
+            </span>
+            <span>
+              <strong>{profile.followings}</strong> following
+            </span>
+          </div>
+          <div className="footer">
+            <h1 style={h1}>{profile.fullname}</h1>
+          </div>
+        </Info>
+      </UserInfo>
+    </>
   );
 }
+
+UserInfoComponent.propTypes = {
+  listFollowers: PropTypes.array,
+  profile: PropTypes.shape({
+    _id: PropTypes.string,
+    avatar: PropTypes.string,
+    username: PropTypes.string,
+    postsCount: PropTypes.number,
+    followings: PropTypes.number,
+    followers: PropTypes.number,
+    fullname: PropTypes.string,
+  }),
+  isCurrentLogin: PropTypes.bool,
+  handleFollow: PropTypes.func,
+};
+
+export default UserInfoComponent;

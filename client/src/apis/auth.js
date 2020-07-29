@@ -23,3 +23,7 @@ export const verify = (data) => {
 export const resendCode = (data) => {
   return axiosServices.post(`${ENDPOINT}/resend-code`, data);
 };
+
+export const refreshToken = (data) => {
+  return axiosServices.post(`${ENDPOINT}/refresh-token`, data);
+};

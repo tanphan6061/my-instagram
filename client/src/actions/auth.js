@@ -133,3 +133,27 @@ export const resendCodeFail = (error) => {
     },
   };
 };
+
+export const refreshToken = () => {
+  return {
+    type: constants.REFRESH_TOKEN,
+  };
+};
+
+export const refreshTokenSuccess = (data) => {
+  return {
+    type: constants.REFRESH_TOKEN_SUCCESS,
+    payload: {
+      data,
+    },
+  };
+};
+
+export const refreshTokenFail = (error) => {
+  return {
+    type: constants.REFRESH_TOKEN_FAIL,
+    payload: {
+      error,
+    },
+  };
+};

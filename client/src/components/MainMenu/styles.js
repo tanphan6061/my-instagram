@@ -11,8 +11,13 @@ export const Button = styled.button`
   font-size: 12px;
 `;
 
-export const ListUl = styled.ul`
+export const ListUl = styled.div`
+  display: flex;
   margin: 0;
   justify-content: center;
   align-items: center;
+`;
+
+export const Item = styled.div`
+  margin-right: 20px;
 `;

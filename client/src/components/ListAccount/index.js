@@ -3,7 +3,7 @@ import React from "react";
 import { ListAccountContainer, EditImage, Direct, DirectText } from "./styles";
 import { Edit } from "../../constants/svgs";
 
-export default function () {
+export default function ListAccount() {
   return (
     <ListAccountContainer>
       <Direct>

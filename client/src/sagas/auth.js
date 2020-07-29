@@ -1,9 +1,9 @@
 import { call, put, delay, takeEvery } from "redux-saga/effects";
 import { push } from "connected-react-router";
 
+import * as statusCode from "../constants/statusCode";
 import { login, logout, register, verify, resendCode } from "../apis/auth";
 import * as authConstants from "../constants/auth";
-import * as statusCode from "../constants/statusCode";
 import {
   loginSuccess,
   loginFail,
@@ -27,6 +27,7 @@ function* loginSaga({ payload }) {
 
     const { status, data } = res;
     if (status === statusCode.SUCCESS) {
+      localStorage.setItem("username", username);
       yield put(loginSuccess(data));
       yield put(push("/"));
     }
@@ -45,6 +46,7 @@ function* logoutSaga() {
     yield logout();
     yield localStorage.removeItem("accessToken");
     yield localStorage.removeItem("refreshToken");
+    yield localStorage.removeItem("username");
     yield put(push("/login"));
   } catch (err) {
     console.log(err.response);

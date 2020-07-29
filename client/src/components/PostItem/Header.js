@@ -1,7 +1,8 @@
 import React from "react";
+import { Link } from "react-router-dom";
+import PropTypes from "prop-types";
 
 import { MoreAction } from "../../constants/svgs";
-
 import { Header, Username } from "./styles";
 
 const info = {
@@ -14,22 +15,30 @@ const avatar = {
   marginRight: "10px",
 };
 
-export default function () {
+function PostItemHeader({ author }) {
   return (
     <Header>
-      <div className="info" style={info}>
-        <div className="avatar" style={avatar}>
-          <img
-            style={{ borderRadius: "50%" }}
-            src="https://instagram.fsgn5-7.fna.fbcdn.net/v/t51.2885-19/s150x150/41382128_887871431406733_4111745408491847680_n.jpg?_nc_ht=instagram.fsgn5-7.fna.fbcdn.net&_nc_ohc=pydfSsr-mf0AX_77gE7&oh=e12b7ccb574d12df0c57406f0775fe1a&oe=5F3E2877"
-            alt="avatar"
-          />
+      <Link to={`/${author[0].username}`}>
+        <div className="info" style={info}>
+          <div className="avatar" style={avatar}>
+            <img
+              style={{ borderRadius: "50%" }}
+              src={author[0].avatar}
+              alt={author[0].useranme}
+            />
+          </div>
+          <Username>{author[0].username}</Username>
         </div>
-        <Username>young.quotes</Username>
-      </div>
+      </Link>
       <div className="more-actions">
         <img src={MoreAction} alt="More Actions" />
       </div>
     </Header>
   );
 }
+
+PostItemHeader.propTypes = {
+  author: PropTypes.array,
+};
+
+export default PostItemHeader;

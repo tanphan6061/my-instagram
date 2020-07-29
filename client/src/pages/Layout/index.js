@@ -1,6 +1,7 @@
 import React from "react";
 import { Switch, Route } from "react-router-dom";
 import { connect } from "react-redux";
+import PropTypes from "prop-types";
 
 import { HOME_ROUTES, AUTH_ROUTES } from "../../constants/routes";
 import Header from "../../components/Header";
@@ -46,6 +47,7 @@ const showPublicRoute = (routes) => {
 
 function Layout(props) {
   const { auth } = props;
+
   return (
     <>
       {auth && <Header />}
@@ -60,6 +62,10 @@ function Layout(props) {
     </>
   );
 }
+
+Layout.propTypes = {
+  auth: PropTypes.bool,
+};
 
 const mapStateToProps = (state) => {
   return {

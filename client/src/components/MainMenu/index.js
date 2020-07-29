@@ -17,22 +17,25 @@ import {
   Saved,
   Setting,
 } from "../../constants/svgs";
-import { Button, ListUl } from "./styles";
+import { Button, ListUl, Item } from "./styles";
 import DropDown from "../DropDown";
 import * as switchRouteAction from "../../actions/switchRoute";
 import * as authAction from "../../actions/auth";
 import * as uiAction from "../../actions/ui";
 
+const username = localStorage.getItem("username");
+
 const profile = {
   top: [
-    { icon: Profile, name: "Profile", link: "/qnguyenhuy1999" },
-    { icon: Saved, name: "Saved", link: "/qnguyenhuy1999/saved" },
+    { icon: Profile, name: "Profile", link: `/${username}` },
+    { icon: Saved, name: "Saved", link: `/${username}/saved` },
     { icon: Setting, name: "Setting", link: "/accounts/edit" },
   ],
 };
 
 function MainMenu(props) {
   const {
+    avatar,
     auth,
     where,
     switchRouteCreators,
@@ -46,27 +49,27 @@ function MainMenu(props) {
   const { toggleDropdownHeart, toggleDropdownProfile } = uiActionCreators;
 
   return (
-    <div id="main-menu">
+    <div id="main-menu" style={{ width: "30%" }}>
       <ListUl>
-        <li>
+        <Item>
           <Link to="/" onClick={() => switchRoute("home")}>
             <img src={where === "home" ? HomeActive : Home} alt="Home" />
           </Link>
-        </li>
-        <li>
+        </Item>
+        <Item>
           <Link to="/inbox" onClick={() => switchRoute("inbox")}>
             <img src={where === "inbox" ? InboxActive : Inbox} alt="Inbox" />
           </Link>
-        </li>
-        <li>
+        </Item>
+        <Item>
           <Link to="/explore" onClick={() => switchRoute("explore")}>
             <img
               src={where === "explore" ? ExploreActive : Explore}
               alt="Explore"
             />
           </Link>
-        </li>
-        <li onClick={() => switchRoute("heart")}>
+        </Item>
+        <Item role="button" tabIndex="0" onClick={() => switchRoute("heart")}>
           <DropDown
             src={where === "heart" ? HeartActive : Heart}
             classname="heart"
@@ -94,12 +97,12 @@ function MainMenu(props) {
               <Button>Follow</Button>
             </div>
           </DropDown>
-        </li>
+        </Item>
 
         {auth && (
-          <li style={{ cursor: "pointer" }}>
+          <Item style={{ cursor: "pointer", width: "8.5%" }}>
             <DropDown
-              src={Profile}
+              src={avatar.avatar}
               dropdown={dropdownProfile}
               toggleDropdown={toggleDropdownProfile}
             >
@@ -124,7 +127,7 @@ function MainMenu(props) {
                 </p>
               </div>
             </DropDown>
-          </li>
+          </Item>
         )}
       </ListUl>
     </div>
@@ -132,6 +135,7 @@ function MainMenu(props) {
 }
 
 MainMenu.propTypes = {
+  avatar: PropTypes.object,
   auth: PropTypes.bool,
   where: PropTypes.string,
   dropdownHeart: PropTypes.bool,
@@ -156,6 +160,7 @@ const mapStateToProps = (state) => {
     auth: state.auth.auth,
     dropdownHeart: state.ui.dropdownHeart,
     dropdownProfile: state.ui.dropdownProfile,
+    avatar: state.user.profile,
   };
 };
 

@@ -1,7 +1,7 @@
 import React from "react";
 import { CopyRight, Text } from "./styles";
 
-export default function () {
+export default function Footer() {
   return (
     <footer>
       <div id="main-footer">

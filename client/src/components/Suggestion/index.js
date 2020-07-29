@@ -1,26 +1,70 @@
-import React from "react";
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
+import { Input, Button } from "reactstrap";
+import PropTypes from "prop-types";
 
+import { FormGroup, Label, FileCustom, FileInput } from "./styles";
 import SuggestionItem from "../SuggestionItem";
+import * as postAction from "../../actions/post";
 
 const pointer = {
   cusor: "pointer",
 };
 
-export default function () {
+function Suggestion({ profile, postActionCreators }) {
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [caption, setCaption] = useState("");
+  const { createPost } = postActionCreators;
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append("media", selectedFile, selectedFile.name);
+    formData.append("caption", caption);
+    createPost(formData);
+    setCaption("");
+    setSelectedFile("");
+  };
+
   return (
     <div className="sidebar-homepage">
-      <div className="info d-flex align-items-center" style={pointer}>
-        <div className="avatar" style={{ width: "20%" }}>
-          <img
-            alt="avatar"
-            src="https://instagram.fadb2-1.fna.fbcdn.net/v/t51.2885-19/44884218_345707102882519_2446069589734326272_n.jpg?_nc_ht=instagram.fadb2-1.fna.fbcdn.net&_nc_ohc=fTIyv_ZY0jwAX8cU6Yd&oh=06aab4528829f4aece14ee52bf5416a8&oe=5F3B398F&ig_cache_key=YW5vbnltb3VzX3Byb2ZpbGVfcGlj.2"
+      <Link to={`/${profile.username}`}>
+        <div className="info d-flex align-items-center" style={pointer}>
+          <div className="avatar" style={{ width: "20%" }}>
+            <img alt="avatar" src={profile.avatar} />
+          </div>
+          <div className="name" style={{ marginLeft: "15px" }}>
+            <p style={{ fontSize: "14px", fontWeight: 500 }}>
+              {profile.username}
+            </p>
+            <p style={{ fontSize: "12px", color: "#8e8e8e" }}>
+              {profile.fullname}
+            </p>
+          </div>
+        </div>
+      </Link>
+      <FormGroup>
+        <Input
+          type="text"
+          name="caption"
+          placeholder="Caption"
+          onChange={(e) => setCaption(e.target.value)}
+        />
+        <Label htmlFor="file">
+          <FileInput
+            type="file"
+            id="file"
+            aria-label="File browser example"
+            onChange={(e) => setSelectedFile(e.target.files[0])}
           />
-        </div>
-        <div className="name" style={{ marginLeft: "15px" }}>
-          <p style={{ fontSize: "14px", fontWeight: 500 }}>qnguyenhuy1999</p>
-          <p style={{ fontSize: "12px", color: "#8e8e8e" }}>Nguyễn Quang Huy</p>
-        </div>
-      </div>
+          <FileCustom className="file-custom" />
+        </Label>
+        <Button type="submit" color="primary" onClick={handleSubmit}>
+          Submit
+        </Button>
+      </FormGroup>
       <div className="suggestions mt-4">
         <div className="d-flex justify-content-between">
           <p style={{ color: "#8e8e8e" }}>Suggestions For You</p>
@@ -36,3 +80,28 @@ export default function () {
     </div>
   );
 }
+
+Suggestion.propTypes = {
+  profile: PropTypes.shape({
+    username: PropTypes.string,
+    avatar: PropTypes.string,
+    fullname: PropTypes.string,
+  }),
+  postActionCreators: PropTypes.shape({
+    createPost: PropTypes.func,
+  }),
+};
+
+const mapStateToProps = (state) => {
+  return {
+    profile: state.user.profile,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    postActionCreators: bindActionCreators(postAction, dispatch),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Suggestion);

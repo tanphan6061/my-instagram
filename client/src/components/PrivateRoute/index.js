@@ -24,9 +24,9 @@ function PrivateRoute({ component: Component, auth, ...rest }) {
 }
 
 PrivateRoute.propTypes = {
-  component: PropTypes.func,
+  component: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
   auth: PropTypes.bool,
-  location: PropTypes.string,
+  location: PropTypes.object,
 };
 
 const mapStateToProps = (state) => {

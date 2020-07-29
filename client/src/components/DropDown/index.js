@@ -12,7 +12,9 @@ function DropDown(props) {
         data-toggle="dropdown"
         aria-expanded={dropdown}
       >
-        <img src={src} alt="icon" />
+        <div className="avatar">
+          <img src={src} alt="icon" />
+        </div>
       </DropdownToggle>
       <DropdownMenu className={classname}>
         <div className="drop-item">

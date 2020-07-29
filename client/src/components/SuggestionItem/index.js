@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function () {
+export default function SuggestionItem() {
   return (
     <div className="suggest-item d-flex justify-content-between align-items-center mt-3">
       <div className="info d-flex align-items-center">

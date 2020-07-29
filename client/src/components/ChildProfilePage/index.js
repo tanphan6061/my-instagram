@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { useRouteMatch } from "react-router-dom";
+import PropTypes from "prop-types";
 
 import { Container, ImageContainer, H1, Button } from "./styles";
 import { Igtv, Saved, Tagged } from "../../constants/svgs";
+import ListImage from "../../components/ListImage/index";
 
-export default function () {
-  const match = useRouteMatch();
+const styleP = { margin: "0 0 15px" };
+
+function ChildProfilePage(props) {
   const [data, setData] = useState({});
+  const { match, posts } = props;
   const name = match.path.split("/")[2];
 
   useEffect(() => {
@@ -38,13 +41,13 @@ export default function () {
         setData({});
         break;
     }
-  }, [name]);
+  }, []);
 
-  const styleP = { margin: "0 0 15px", ...data.style } || {
-    margin: "0 0 15px",
-  };
-
-  return (
+  return !data.h1 ? (
+    <>
+      <ListImage posts={posts} />
+    </>
+  ) : (
     <Container>
       <ImageContainer>
         <img src={data.src} alt={data.h1} />
@@ -55,3 +58,12 @@ export default function () {
     </Container>
   );
 }
+
+ChildProfilePage.propTypes = {
+  match: PropTypes.shape({
+    path: PropTypes.string,
+  }),
+  posts: PropTypes.array,
+};
+
+export default ChildProfilePage;

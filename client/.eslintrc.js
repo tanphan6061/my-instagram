@@ -46,6 +46,8 @@ module.exports = {
     "jsx-a11y/heading-has-content": 0,
     "react/jsx-props-no-spreading": 0,
     "react/jsx-curly-newline": 0,
+    "jsx-a11y/mouse-events-have-key-events": 0,
+    "no-underscore-dangle": 0,
     "prettier/prettier": [
       "error",
       {
