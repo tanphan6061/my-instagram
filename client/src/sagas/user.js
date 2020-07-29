@@ -6,7 +6,7 @@ import {
   getProfileUser,
   search,
   follow,
-  getFollowerApi,
+  getFollowingApi,
 } from "../apis/user";
 import * as userConstants from "../constants/user";
 import {
@@ -17,9 +17,9 @@ import {
   searchSuccess,
   followSuccess,
   followFail,
-  getFollower,
-  getFollowerSuccess,
-  getFollowerFail,
+  getFollowing,
+  getFollowingSuccess,
+  getFollowingFail,
 } from "../actions/user";
 import { refreshToken } from "../apis/auth";
 import { refreshTokenSuccess, refreshTokenFail } from "../actions/auth";
@@ -44,7 +44,7 @@ function* getProfileSaga() {
     const { data, status } = res;
     if (status === statusCode.SUCCESS) {
       yield put(getProfileSuccess(data.user));
-      yield put(getFollower(data.user._id));
+      yield put(getFollowing(data.user._id));
     }
   } catch (err) {
     if (err.response.status === 401) {
@@ -96,23 +96,24 @@ function* followSaga({ payload }) {
     const { data, status } = res;
     if (status === statusCode.SUCCESS) {
       yield put(followSuccess(data.action));
+      yield put(getFollowing(id));
     }
   } catch (err) {
     yield put(followFail(err.response.data.message));
   }
 }
 
-function* getFollowerSaga({ payload }) {
+function* getFollowingSaga({ payload }) {
   try {
     const { id } = payload;
 
-    const res = yield call(getFollowerApi, { userId: id });
+    const res = yield call(getFollowingApi, { userId: id });
     const { data, status } = res;
     if (status === statusCode.SUCCESS) {
-      yield put(getFollowerSuccess(data[0].followers));
+      yield put(getFollowingSuccess(data[0].followings));
     }
   } catch (err) {
-    yield put(getFollowerFail(err.response.data.message));
+    yield put(getFollowingFail(err.response.data.message));
   }
 }
 
@@ -121,7 +122,7 @@ function* sagas() {
   yield takeEvery(userConstants.GET_PROFILE_USER, getProfileUserSaga);
   yield takeLatest(userConstants.SEARCH, searchSaga);
   yield takeLatest(userConstants.FOLLOW, followSaga);
-  yield takeLatest(userConstants.GET_FOLLOWER, getFollowerSaga);
+  yield takeLatest(userConstants.GET_FOLLOWING, getFollowingSaga);
 }
 
 export default sagas;

@@ -24,12 +24,17 @@ function PostItemContent(props) {
     createdAt,
     postActionCreators,
   } = props;
-  const { likePost } = postActionCreators;
+  const { likePost, fetchPostsFollowing } = postActionCreators;
+
+  const handleLikePost = () => {
+    likePost(id, fetchPostsFollowing());
+  };
+
   return (
     <Content>
       <div className="controls">
         <div style={{ display: "flex" }}>
-          <img src={Heart} alt="Like" onClick={() => likePost(id)} />
+          <img src={Heart} alt="Like" onClick={handleLikePost} />
           <img
             src={Comment}
             alt="Comment"
@@ -45,8 +50,10 @@ function PostItemContent(props) {
       <Text>{totalLikes} likes</Text>
 
       <div className="description">
-        <Text>{author[0].username}</Text>
-        <span>{caption}</span>
+        <span>
+          <Text style={{ padding: 0 }}>{author[0].username}</Text>
+          {caption}
+        </span>
       </div>
 
       <p style={comment}>View all {totalComments} comments</p>
@@ -55,7 +62,7 @@ function PostItemContent(props) {
         <div className="showComments">
           {comments.map((item, index) => (
             <div className="comment-item" key={index}>
-              <Text>{item.author}</Text>
+              <Text style={{ padding: 0 }}>{item.author}</Text>
               <span>{item.content}</span>
             </div>
           ))}
@@ -69,6 +76,7 @@ function PostItemContent(props) {
 PostItemContent.propTypes = {
   postActionCreators: PropTypes.shape({
     likePost: PropTypes.func,
+    fetchPostsFollowing: PropTypes.func,
   }),
   id: PropTypes.string,
   totalLikes: PropTypes.number,

@@ -1,24 +1,13 @@
-import React, { useEffect } from "react";
-import { bindActionCreators } from "redux";
+import React from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
 import { PageHome, ListPosts } from "./styles";
 import PostItem from "../../components/PostItem/index";
 import Suggestion from "../../components/Suggestion/index";
-import * as postAction from "../../actions/post";
-import * as userAction from "../../actions/user";
 
 function Home(props) {
-  const { posts, postActionCreators, userActionCreators } = props;
-  const { fetchPostsFollowing } = postActionCreators;
-  const { getProfile } = userActionCreators;
-
-  useEffect(() => {
-    fetchPostsFollowing();
-    getProfile();
-    // eslint-disable-next-line
-  }, []);
+  const { posts } = props;
 
   return (
     <PageHome>
@@ -32,27 +21,14 @@ function Home(props) {
 }
 
 Home.propTypes = {
-  userActionCreators: PropTypes.shape({
-    getProfile: PropTypes.func,
-  }),
-  postActionCreators: PropTypes.shape({
-    fetchPostsFollowing: PropTypes.func,
-  }),
   posts: PropTypes.array,
 };
 
 const mapStateToProps = (state) => {
   return {
     posts: state.posts.postFollowings,
-    profile: state.user.profile,
+    profile: state.user.mainProfile,
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    userActionCreators: bindActionCreators(userAction, dispatch),
-    postActionCreators: bindActionCreators(postAction, dispatch),
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Home);
+export default connect(mapStateToProps, null)(Home);

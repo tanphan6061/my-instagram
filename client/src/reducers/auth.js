@@ -10,20 +10,6 @@ const initalState = {
 
 const reducer = (state = initalState, action) => {
   switch (action.type) {
-    case constants.SHOW_LOADING: {
-      return {
-        ...state,
-        loading: true,
-      };
-    }
-
-    case constants.HIDE_LOADING: {
-      return {
-        ...state,
-        loading: false,
-      };
-    }
-
     case constants.CHECK_AUTH: {
       const accessToken = localStorage.getItem("accessToken");
       const refreshToken = localStorage.getItem("refreshToken");
@@ -41,7 +27,6 @@ const reducer = (state = initalState, action) => {
         loading: true,
       };
     }
-
     case constants.LOGIN_SUCCESS: {
       const { data } = action.payload;
       localStorage.setItem("accessToken", data.accessToken);

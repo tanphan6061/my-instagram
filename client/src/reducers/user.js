@@ -3,9 +3,10 @@ import { toast } from "react-toastify";
 import * as constants from "../constants/user";
 
 const initialState = {
-  profile: {},
-  users: [],
-  followers: [],
+  mainProfile: {},
+  userProfile: {},
+  search: [],
+  followings: [],
 };
 
 const reducer = (state = initialState, action) => {
@@ -18,7 +19,7 @@ const reducer = (state = initialState, action) => {
       const { data } = action.payload;
       return {
         ...state,
-        profile: data,
+        mainProfile: data,
       };
     }
 
@@ -36,7 +37,7 @@ const reducer = (state = initialState, action) => {
       const { data } = action.payload;
       return {
         ...state,
-        profile: data,
+        userProfile: data,
       };
     }
 
@@ -54,7 +55,7 @@ const reducer = (state = initialState, action) => {
       const { data } = action.payload;
       return {
         ...state,
-        users: data,
+        search: data,
       };
     }
 
@@ -74,19 +75,19 @@ const reducer = (state = initialState, action) => {
       return state;
     }
 
-    case constants.GET_FOLLOWER: {
+    case constants.GET_FOLLOWING: {
       return state;
     }
 
-    case constants.GET_FOLLOWER_SUCCESS: {
+    case constants.GET_FOLLOWING_SUCCESS: {
       const { data } = action.payload;
       return {
         ...state,
-        followers: data,
+        followings: data,
       };
     }
 
-    case constants.GET_FOLLOWER_FAIL: {
+    case constants.GET_FOLLOWING_FAIL: {
       const { error } = action.payload;
       toast.error(error);
       return state;

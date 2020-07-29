@@ -31,7 +31,6 @@ function* loginSaga({ payload }) {
       yield put(loginSuccess(data));
       yield put(push("/"));
     }
-    yield delay(1000);
   } catch (err) {
     yield put(loginFail(err.response.data.message));
   }
@@ -89,7 +88,6 @@ function* verifySaga({ payload }) {
       yield put(verifySuccess(data));
       yield put(push("/"));
     }
-    yield delay(1000);
   } catch (err) {
     yield put(verifyFail(err.response.data.message));
   }

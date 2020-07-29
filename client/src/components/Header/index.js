@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
@@ -20,7 +20,6 @@ import * as switchRouteAction from "../../actions/switchRoute";
 import * as userAction from "../../actions/user";
 
 function Header(props) {
-  const inputElm = useRef(null);
   const [input, setInput] = useState("");
   const { switchRouteCreators, userActionCreators, users } = props;
   const { switchRoute } = switchRouteCreators;
@@ -29,11 +28,10 @@ function Header(props) {
   const handleChange = (e) => {
     setInput(e.target.value);
     search(input);
+  };
 
-    document.addEventListener("click", () => {
-      e.persist();
-      setInput("");
-    });
+  const removeTextInput = () => {
+    setInput("");
   };
 
   return (
@@ -50,23 +48,16 @@ function Header(props) {
           </div>
         </Link>
         <GroupSearch>
-          <div
-            id="search"
-            role="button"
-            tabIndex={0}
-            onClick={() => inputElm.current.focus()}
-            onChange={handleChange}
-          >
-            <input type="text" ref={inputElm} />
-            {!input && (
-              <>
-                <span className="searchIcon" />
-                <span className="textSearch">Search</span>
-              </>
-            )}
+          <div id="search" role="button" tabIndex={0}>
+            <input
+              type="text"
+              placeholder="Search"
+              onChange={handleChange}
+              value={input}
+            />
           </div>
           {users.length > 0 && input && (
-            <Accounts>
+            <Accounts onClick={removeTextInput}>
               {users.map((user, index) => (
                 <Link to={`/${user.username}`} key={index}>
                   <Account>
@@ -101,7 +92,7 @@ Header.propTypes = {
 
 const mapStateToProps = (state) => {
   return {
-    users: state.user.users,
+    users: state.user.search,
   };
 };
 

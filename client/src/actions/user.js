@@ -96,27 +96,27 @@ export const followFail = (error) => {
   };
 };
 
-export const getFollower = (id) => {
+export const getFollowing = (id) => {
   return {
-    type: constants.GET_FOLLOWER,
+    type: constants.GET_FOLLOWING,
     payload: {
       id,
     },
   };
 };
 
-export const getFollowerSuccess = (data) => {
+export const getFollowingSuccess = (data) => {
   return {
-    type: constants.GET_FOLLOWER_SUCCESS,
+    type: constants.GET_FOLLOWING_SUCCESS,
     payload: {
       data,
     },
   };
 };
 
-export const getFollowerFail = (error) => {
+export const getFollowingFail = (error) => {
   return {
-    type: constants.GET_FOLLOWER_FAIL,
+    type: constants.GET_FOLLOWING_FAIL,
     payload: {
       error,
     },

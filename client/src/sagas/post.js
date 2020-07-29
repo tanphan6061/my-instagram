@@ -1,4 +1,4 @@
-import { call, put, takeEvery, delay, takeLatest } from "redux-saga/effects";
+import { call, put, takeEvery, takeLatest } from "redux-saga/effects";
 
 import * as statusCode from "../constants/statusCode";
 import {
@@ -42,7 +42,6 @@ function* fetchPostsFollowingSaga() {
     if (status === statusCode.SUCCESS) {
       yield put(fetchPostsFollowingSuccess(data));
     }
-    yield delay(1000);
   } catch (err) {
     if (err.response.status === 401) {
       yield* refreshTokenSaga();
@@ -63,7 +62,6 @@ function* getDetailPostSaga({ payload }) {
     if (status === statusCode.SUCCESS) {
       yield put(getDetailPostSuccess(data));
     }
-    yield delay(1000);
   } catch (err) {
     if (err.response.status === 401) {
       yield* refreshTokenSaga();
@@ -75,13 +73,12 @@ function* getDetailPostSaga({ payload }) {
 
 function* likePostSaga({ payload }) {
   try {
-    const { postId } = payload;
+    const { postId, callback } = payload;
     const res = yield call(likePost, { postId });
     const { data, status } = res;
     if (status === statusCode.SUCCESS) {
       yield put(likePostSuccess(data));
-      yield* fetchPostsFollowingSaga();
-      yield* getDetailPostSaga({ payload: { postId } });
+      yield put(callback);
     }
   } catch (err) {
     yield put(likePostFail(err.response.data.message));

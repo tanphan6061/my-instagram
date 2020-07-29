@@ -51,11 +51,12 @@ export const getDetailPostFail = (error) => {
   };
 };
 
-export const likePost = (postId) => {
+export const likePost = (postId, callback) => {
   return {
     type: constants.LIKE_POST,
     payload: {
       postId,
+      callback,
     },
   };
 };

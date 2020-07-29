@@ -16,7 +16,7 @@ function DropDown(props) {
           <img src={src} alt="icon" />
         </div>
       </DropdownToggle>
-      <DropdownMenu className={classname}>
+      <DropdownMenu className={classname} onClick={toggleDropdown}>
         <div className="drop-item">
           <div className="arrow" />
           {children}

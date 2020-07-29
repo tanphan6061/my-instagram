@@ -145,20 +145,20 @@ module.exports.followerUser = async (req, res) => {
                 userId: userFollow.id,
                 action: 'followed',
             });
+        }else{
+            await Following.updateOne(
+                { user: req.userId },
+                { $pull: { followings: userId } },
+            );
+            await Follower.updateOne(
+                {
+                    user: userId,
+                },
+                {
+                    $pull: { followers: req.userId },
+                },
+            );
         }
-
-        await Following.updateOne(
-            { user: req.userId },
-            { $pull: { followings: userId } },
-        );
-        await Follower.updateOne(
-            {
-                user: userId,
-            },
-            {
-                $pull: { followers: req.userId },
-            },
-        );
 
         return res.json({
             userId: userFollow.id,
@@ -287,11 +287,15 @@ module.exports.getUserData = async (req, res, next) => {
                 username: 1,
                 email: 1,
                 avatar: 1,
-                following: {
-                    $arrayElemAt: ['$followings.followings', 0],
+                followings: {
+                    $size: {
+                        $arrayElemAt: ['$followings.followings', 0]
+                    }
                 },
                 followers: {
-                    $arrayElemAt: ['$followers.followers', 0],
+                    $size: {
+                        $arrayElemAt: ['$followers.followers', 0]
+                    }
                 },
                 postLikes: 1,
                 commentLikes: 1,
@@ -308,9 +312,8 @@ module.exports.getUserData = async (req, res, next) => {
             ...user[0],
             postsCount: posts,
         };
-        return res.json({
-            user: data,
-        });
+        req.body.user = data;
+        next()
     } catch (err) {
         res.status(status.INTERNAL_SERVER_ERROR).json({
             message: err.message,

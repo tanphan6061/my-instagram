@@ -1,13 +1,15 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Switch, Route } from "react-router-dom";
+import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
 import { HOME_ROUTES, AUTH_ROUTES } from "../../constants/routes";
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
-import Loading from "../../components/Loading";
 import PrivateRoute from "../../components/PrivateRoute";
+import * as postAction from "../../actions/post";
+import * as userAction from "../../actions/user";
 
 const showPrivateRoute = (routes) => {
   let result = null;
@@ -46,7 +48,15 @@ const showPublicRoute = (routes) => {
 };
 
 function Layout(props) {
-  const { auth } = props;
+  const { auth, postActionCreators, userActionCreators } = props;
+  const { fetchPostsFollowing } = postActionCreators;
+  const { getProfile } = userActionCreators;
+
+  useEffect(() => {
+    fetchPostsFollowing();
+    getProfile();
+    // eslint-disable-next-line
+  }, []);
 
   return (
     <>
@@ -58,13 +68,18 @@ function Layout(props) {
         </Switch>
       </main>
       <Footer />
-      <Loading />
     </>
   );
 }
 
 Layout.propTypes = {
   auth: PropTypes.bool,
+  userActionCreators: PropTypes.shape({
+    getProfile: PropTypes.func,
+  }),
+  postActionCreators: PropTypes.shape({
+    fetchPostsFollowing: PropTypes.func,
+  }),
 };
 
 const mapStateToProps = (state) => {
@@ -73,4 +88,11 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, null)(Layout);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    userActionCreators: bindActionCreators(userAction, dispatch),
+    postActionCreators: bindActionCreators(postAction, dispatch),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Layout);

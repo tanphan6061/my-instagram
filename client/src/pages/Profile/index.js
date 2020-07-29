@@ -42,13 +42,22 @@ const showRoutes = (routes, posts) => {
 };
 
 function Profile(props) {
-  const { match, profile, followers, userActionCreators } = props;
+  const {
+    match,
+    mainProfile,
+    userProfile,
+    listFollowings,
+    userActionCreators,
+  } = props;
   const { username } = match.params;
   const { getProfileUser, follow } = userActionCreators;
   const currentLogin = localStorage.getItem("username");
+  const profile = currentLogin === username ? mainProfile : userProfile;
 
   useEffect(() => {
-    getProfileUser(username);
+    if (currentLogin !== username) {
+      getProfileUser(username);
+    }
   }, [username]);
 
   return (
@@ -56,7 +65,7 @@ function Profile(props) {
       <UserInfo
         className="user-info"
         profile={profile}
-        listFollowers={followers}
+        listFollowings={listFollowings}
         isCurrentLogin={currentLogin === username}
         handleFollow={follow}
       />
@@ -85,9 +94,10 @@ function Profile(props) {
 }
 
 Profile.propTypes = {
-  followers: PropTypes.array,
+  listFollowings: PropTypes.array,
   match: PropTypes.object,
-  profile: PropTypes.object,
+  mainProfile: PropTypes.object,
+  userProfile: PropTypes.object,
   userActionCreators: PropTypes.shape({
     getProfileUser: PropTypes.func,
     follow: PropTypes.func,
@@ -96,8 +106,9 @@ Profile.propTypes = {
 
 const mapStateToProps = (state) => {
   return {
-    profile: state.user.profile,
-    followers: state.user.followers,
+    mainProfile: state.user.mainProfile,
+    userProfile: state.user.userProfile,
+    listFollowings: state.user.followings,
   };
 };
 

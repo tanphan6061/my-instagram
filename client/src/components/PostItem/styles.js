@@ -12,7 +12,7 @@ export const Article = styled.article`
 export const Header = styled.div`
   display: flex;
   justify-content: space-between;
-  padding: 20px;
+  padding: 15px 20px;
   align-items: center;
 `;
 
@@ -22,6 +22,7 @@ export const Content = styled.div`
 `;
 
 export const Text = styled.p`
+  display: inline-block;
   padding: 5px 0;
   font-weight: bolder;
 `;

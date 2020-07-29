@@ -160,7 +160,7 @@ const mapStateToProps = (state) => {
     auth: state.auth.auth,
     dropdownHeart: state.ui.dropdownHeart,
     dropdownProfile: state.ui.dropdownProfile,
-    avatar: state.user.profile,
+    avatar: state.user.mainProfile,
   };
 };
 

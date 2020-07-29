@@ -18,6 +18,6 @@ export const follow = (data) => {
   return axiosServices.post(`${ENDPOINT}/followers`, data);
 };
 
-export const getFollowerApi = (data) => {
-  return axiosServices.post(`${ENDPOINT}/get-users-follower`, data);
+export const getFollowingApi = (data) => {
+  return axiosServices.post(`${ENDPOINT}/get-users-following`, data);
 };

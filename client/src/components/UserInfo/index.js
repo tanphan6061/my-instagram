@@ -23,10 +23,10 @@ const h1 = {
 };
 
 function UserInfoComponent(props) {
-  const { profile, listFollowers, isCurrentLogin, handleFollow } = props;
-  console.log(listFollowers);
+  const { profile, listFollowings, isCurrentLogin, handleFollow } = props;
+
   const checkIsFollow = (id) => {
-    return listFollowers.findIndex((item) => item._id === id);
+    return listFollowings.findIndex((item) => item._id === id);
   };
 
   return (
@@ -72,7 +72,7 @@ function UserInfoComponent(props) {
 }
 
 UserInfoComponent.propTypes = {
-  listFollowers: PropTypes.array,
+  listFollowings: PropTypes.array,
   profile: PropTypes.shape({
     _id: PropTypes.string,
     avatar: PropTypes.string,

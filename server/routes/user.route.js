@@ -39,7 +39,12 @@ router.post('/followers', validator.checkUserId, controller.followerUser);
 /**
  * get data of use logged in
  */
-router.get('/get-user-data', controller.getUserData);
+router.get(
+    '/get-user-data', 
+    controller.getUserData, 
+    controller.getUserPosts, 
+    controller.sendUserData,
+);
 
 /**
  * get data of use by username

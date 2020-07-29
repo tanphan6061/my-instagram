@@ -34,8 +34,10 @@ export const Content = styled.div`
 `;
 
 export const Text = styled.p`
+  display: inline-block;
   padding: 5px 0;
   font-weight: bolder;
+  margin-right: 5px;
 `;
 
 export const Footer = styled.div`

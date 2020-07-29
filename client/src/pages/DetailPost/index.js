@@ -46,6 +46,10 @@ function DetailPostPage(props) {
     getDetailPost(id);
   }, [id]);
 
+  const handleLikePost = () => {
+    likePost(id, getDetailPost(id));
+  };
+
   return (
     post && (
       <div
@@ -74,9 +78,11 @@ function DetailPostPage(props) {
             </Header>
             <Content>
               <ShowAllComments>
-                <div className="description" style={{ marginBottom: "20px" }}>
-                  <Text>{post.author && post.author[0].username}</Text>
-                  <span>{post.caption}</span>
+                <div className="d-flex" style={{ marginBottom: "20px" }}>
+                  <span>
+                    <Text>{post.author && post.author[0].username}</Text>
+                    {post.caption}
+                  </span>
                 </div>
                 <div className="showComments">
                   {post.limitComments &&
@@ -87,19 +93,17 @@ function DetailPostPage(props) {
                         className="comment-item"
                         style={{ marginBottom: "20px" }}
                       >
-                        <Text>{item.author}</Text>
-                        <span>{item.content}</span>
+                        <span>
+                          <Text>{item.author}</Text>
+                          {item.content}
+                        </span>
                       </div>
                     ))}
                 </div>
               </ShowAllComments>
               <div className="controls">
                 <div style={{ display: "flex" }}>
-                  <img
-                    src={Heart}
-                    alt="Like"
-                    onClick={() => likePost(post._id)}
-                  />
+                  <img src={Heart} alt="Like" onClick={handleLikePost} />
                   <img
                     src={Comment}
                     alt="Comment"
