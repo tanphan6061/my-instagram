@@ -45,6 +45,7 @@ export const TextArea = styled.textarea`
   line-height: 18px;
   flex-grow: 1;
   overflow: hidden;
+  padding: 0 0 22px;
 `;
 
 export const ColorActiveButton = styled.button`
@@ -62,7 +63,7 @@ export const Username = styled.span`
 `;
 
 export const CreatedAt = styled.p`
-  color: #8e8e8e;
+  color: #8e8e8e !important;
   padding: 5px 0 0;
-  font-size: 11px;
+  font-size: 11px !important;
 `;

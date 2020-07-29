@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
@@ -9,7 +10,6 @@ import * as postAction from "../../actions/post";
 
 const comment = {
   color: "#8e8e8e",
-  padding: "5px 0 0",
 };
 
 function PostItemContent(props) {
@@ -22,19 +22,30 @@ function PostItemContent(props) {
     comments,
     inputElm,
     createdAt,
+    postLikes,
     postActionCreators,
   } = props;
   const { likePost, fetchPostsFollowing } = postActionCreators;
+  const [liked, setLiked] = useState(false);
+
+  useEffect(() => {
+    setLiked(postLikes && postLikes.length > 0 && postLikes.indexOf(id) > -1);
+  }, [postLikes, id]);
 
   const handleLikePost = () => {
     likePost(id, fetchPostsFollowing());
+    setLiked(!liked);
   };
 
   return (
     <Content>
       <div className="controls">
         <div style={{ display: "flex" }}>
-          <img src={Heart} alt="Like" onClick={handleLikePost} />
+          <img
+            src={liked ? HeartLike : Heart}
+            alt="Like"
+            onClick={handleLikePost}
+          />
           <img
             src={Comment}
             alt="Comment"
@@ -56,14 +67,18 @@ function PostItemContent(props) {
         </span>
       </div>
 
-      <p style={comment}>View all {totalComments} comments</p>
+      <Link to={`p/${id}`} style={comment}>
+        View all {totalComments} comments
+      </Link>
 
       {comments && comments.length > 0 && (
         <div className="showComments">
           {comments.map((item, index) => (
             <div className="comment-item" key={index}>
-              <Text style={{ padding: 0 }}>{item.author}</Text>
-              <span>{item.content}</span>
+              <span>
+                <Text style={{ padding: 0 }}>{item.author}</Text>
+                {item.content}
+              </span>
             </div>
           ))}
         </div>
@@ -78,6 +93,7 @@ PostItemContent.propTypes = {
     likePost: PropTypes.func,
     fetchPostsFollowing: PropTypes.func,
   }),
+  postLikes: PropTypes.array,
   id: PropTypes.string,
   totalLikes: PropTypes.number,
   totalComments: PropTypes.number,
@@ -88,10 +104,16 @@ PostItemContent.propTypes = {
   inputElm: PropTypes.object,
 };
 
+const mapStateToProps = (state) => {
+  return {
+    postLikes: state.user.mainProfile.postLikes,
+  };
+};
+
 const mapDispatchToProps = (dispatch) => {
   return {
     postActionCreators: bindActionCreators(postAction, dispatch),
   };
 };
 
-export default connect(null, mapDispatchToProps)(PostItemContent);
+export default connect(mapStateToProps, mapDispatchToProps)(PostItemContent);

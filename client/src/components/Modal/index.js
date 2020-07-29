@@ -1,22 +1,13 @@
-import React, { useState } from "react";
+import React from "react";
 import { Modal, ModalBody } from "reactstrap";
 
-function ModalContainer() {
-  const [modal, setModal] = useState(true);
-
-  const toggle = () => setModal(!modal);
+function ModalContainer(props) {
+  const { modal, toggle, children } = props;
 
   return (
     <div>
       <Modal isOpen={modal} toggle={toggle}>
-        <ModalBody>
-          <div className="item">
-            <p>Item</p>
-          </div>
-          <div className="item">
-            <p>Item</p>
-          </div>
-        </ModalBody>
+        <ModalBody>{children}</ModalBody>
       </Modal>
     </div>
   );

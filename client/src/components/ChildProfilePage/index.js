@@ -41,7 +41,7 @@ function ChildProfilePage(props) {
         setData({});
         break;
     }
-  }, []);
+  }, [name]);
 
   return !data.h1 ? (
     <>

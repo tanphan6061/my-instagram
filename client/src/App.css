@@ -208,7 +208,6 @@ main {
 .post-item .description,
 .post-item .comment-item {
   display: flex;
-  margin: 0 0 5px;
   text-align: justify;
 }
 
@@ -219,6 +218,10 @@ main {
 
 .showComments {
   width: 95%;
+}
+
+.submit-comment:disabled {
+  color: #77bfed;
 }
 
 /* sidebar home page */

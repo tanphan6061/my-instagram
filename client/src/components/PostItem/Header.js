@@ -15,7 +15,7 @@ const avatar = {
   marginRight: "10px",
 };
 
-function PostItemHeader({ author }) {
+function PostItemHeader({ author, toggle }) {
   return (
     <Header>
       <Link to={`/${author[0].username}`}>
@@ -31,7 +31,7 @@ function PostItemHeader({ author }) {
         </div>
       </Link>
       <div className="more-actions">
-        <img src={MoreAction} alt="More Actions" />
+        <img src={MoreAction} alt="More Actions" onClick={toggle} />
       </div>
     </Header>
   );
@@ -39,6 +39,7 @@ function PostItemHeader({ author }) {
 
 PostItemHeader.propTypes = {
   author: PropTypes.array,
+  toggle: PropTypes.func,
 };
 
 export default PostItemHeader;
