@@ -30,6 +30,7 @@ This page has features: **Show followers, followings, posts**. Static page: IGTV
 
 ### Error in this app!
 
+1. When login success you must **reload page** to can show new data.
 1. Because we use refresh token & access token, access token will expired in 5 minutes. After 5 minutes data can't show, you must **reload page** to can show data.
 2. In edit profile page, we can't show value in input. You must type full your information again to can edit profile (website, bio, phone number we don't save).
 3. This app can has some error i can't find it. You can test and help us report this.
