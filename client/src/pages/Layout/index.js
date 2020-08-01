@@ -53,12 +53,12 @@ function Layout(props) {
   const { getProfile } = userActionCreators;
 
   useEffect(() => {
+    //loi axios lay token chua kip
     if (auth) {
       fetchPostsFollowing();
       getProfile();
     }
-    // eslint-disable-next-line
-  }, []);
+  }, [auth, fetchPostsFollowing, getProfile]);
 
   return (
     <>

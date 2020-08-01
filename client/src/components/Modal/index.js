@@ -17,7 +17,7 @@ function ModalContainer(props) {
 ModalContainer.propTypes = {
   modal: PropTypes.bool,
   toggle: PropTypes.func,
-  children: PropTypes.oneOf([PropTypes.func, PropTypes.object]),
+  children: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
 };
 
 export default ModalContainer;
