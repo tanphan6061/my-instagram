@@ -41,6 +41,10 @@ In root directory & open terminal:
 - cd server -> yarn -> yarn start
 - cd ../ -> cd client -> yarn -> yarn start
 
+### Demo online:
+APP: https://instagram-b042e.web.app/
+API: https://instagamproject.herokuapp.com/
+
 **Thanks for your reading. If you have ideal, find error or can fix error in our app. Please contact with one of us:**
 - Github: [Nguyen Quang Huy](https://github.com/qnguyenhuy1999) [Phan Viet Tan](https://github.com/BinzLark)
 - Facebook: [Nguyen Quang Huy](https://www.facebook.com/qnguyenhuy1999) [Phan Viet Tan](https://www.facebook.com/tan16061999)
