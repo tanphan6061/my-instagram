@@ -27,7 +27,6 @@ function* loginSaga({ payload }) {
 
     const { status, data } = res;
     if (status === statusCode.SUCCESS) {
-      localStorage.setItem("username", username);
       yield put(loginSuccess(data));
       yield put(push("/"));
     }
@@ -42,10 +41,9 @@ function* checkAuthSaga() {
 
 function* logoutSaga() {
   try {
-    yield logout();
+    yield call(logout);
     yield localStorage.removeItem("accessToken");
     yield localStorage.removeItem("refreshToken");
-    yield localStorage.removeItem("username");
     yield put(push("/login"));
   } catch (err) {
     console.log(err.response);

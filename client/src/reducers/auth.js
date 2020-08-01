@@ -95,6 +95,7 @@ const reducer = (state = initalState, action) => {
       return {
         ...state,
         auth: true,
+        verify: "",
         loading: false,
       };
     }

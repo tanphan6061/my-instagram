@@ -31,7 +31,7 @@ function Suggestion({ profile, postActionCreators }) {
   return (
     <div className="sidebar-homepage">
       <Link to={`/${profile.username}`}>
-        <div className="info d-flex align-items-center" style={pointer}>
+        <div className="info d-flex align-items-center mb-3" style={pointer}>
           <div className="avatar" style={{ width: "20%" }}>
             <img alt="avatar" src={profile.avatar} />
           </div>

@@ -131,6 +131,51 @@ const reducer = (state = initialState, action) => {
       return state;
     }
 
+    case constants.ADD_AVATAR: {
+      return state;
+    }
+
+    case constants.ADD_AVATAR_SUCCESS: {
+      toast.success("Add new avatar success");
+      return state;
+    }
+
+    case constants.ADD_AVATAR_FAIL: {
+      const { error } = action.payload;
+      toast.error(error);
+      return state;
+    }
+
+    case constants.UPDATE_PROFILE: {
+      return state;
+    }
+
+    case constants.UPDATE_PROFILE_SUCCESS: {
+      toast.success("Update profile success");
+      return state;
+    }
+
+    case constants.UPDATE_PROFILE_FAIL: {
+      const { error } = action.payload;
+      toast.error(error);
+      return state;
+    }
+
+    case constants.CHANGE_PASSWORD: {
+      return state;
+    }
+
+    case constants.CHANGE_PASSWORD_SUCCESS: {
+      toast.success("Change password success");
+      return state;
+    }
+
+    case constants.CHANGE_PASSWORD_FAIL: {
+      const { error } = action.payload;
+      toast.error(error);
+      return state;
+    }
+
     default:
       return state;
   }
