@@ -1,3 +1,5 @@
+import React from "react";
+
 import HomePage from "../pages/Home";
 import DirectPage from "../pages/Direct";
 import ExplorePage from "../pages/Explore";
@@ -6,7 +8,10 @@ import LoginPage from "../pages/Login";
 import VerifyPage from "../pages/Verify";
 import SignupPage from "../pages/Signup";
 import DetailPostPage from "../pages/DetailPost";
-// import ChildProfilePage from "../components/ChildProfilePage";
+import SettingPage from "../pages/Setting";
+import EditComponent from "../components/EditSetting";
+import PasswordComponent from "../components/PasswordSetting";
+import AppWebsiteComponent from "../components/AppWebSetting";
 
 export const AUTH_ROUTES = [
   {
@@ -52,6 +57,12 @@ export const HOME_ROUTES = [
     component: DetailPostPage,
   },
   {
+    path: "/accounts/:name",
+    name: "setting",
+    exact: false,
+    component: SettingPage,
+  },
+  {
     path: "/:username",
     name: "profile",
     exact: false,
@@ -63,82 +74,72 @@ export const PROFILE_ROUTES = [
   {
     path: "/:username/post",
     name: "currentPost",
-    exact: false,
-    // component: ChildProfilePage,
+    exact: true,
   },
   {
     path: "/:username/channel",
     name: "channel",
-    exact: false,
-    // component: ChildProfilePage,
+    exact: true,
   },
   {
     path: "/:username/saved",
     name: "saved",
-    exact: false,
-    // component: ChildProfilePage,
+    exact: true,
   },
   {
     path: "/:username/tagged",
     name: "tagged",
-    exact: false,
-    // component: ChildProfilePage,
+    exact: true,
   },
 ];
 
 export const SETTING_ROUTES = [
   {
     path: "/accounts/edit",
-    name: "editProfile",
+    name: "editAccount",
     exact: true,
-    component: HomePage,
+    render: (props) => <EditComponent {...props} />,
   },
   {
-    path: "/password/change",
+    path: "/accounts/password",
     name: "changePassword",
     exact: true,
-    component: HomePage,
+    render: (props) => <PasswordComponent {...props} />,
   },
   {
     path: "/accounts/manage_access",
     name: "manageAccess",
     exact: true,
-    component: HomePage,
   },
   {
     path: "/accounts/contact_history",
     name: "contactHistory",
     exact: true,
-    component: HomePage,
   },
   {
     path: "/accounts/privacy_and_security/",
     name: "privacy",
     exact: true,
-    component: HomePage,
   },
   {
-    path: "/emails/settings",
+    path: "/accounts/email",
     name: "emailSetting",
     exact: true,
-    component: HomePage,
   },
   {
-    path: "/emails/emails_sent/",
+    path: "/accounts/emails_sent/",
     name: "emailSent",
     exact: true,
-    component: HomePage,
   },
   {
-    path: "/push/web/settings",
+    path: "/accounts/web",
     name: "webSetting",
     exact: true,
-    component: HomePage,
+    render: AppWebsiteComponent,
   },
   {
-    path: "/session/login_activity/",
+    path: "/accounts/login_activity/",
     name: "loginActivity",
     exact: true,
-    component: HomePage,
   },
 ];

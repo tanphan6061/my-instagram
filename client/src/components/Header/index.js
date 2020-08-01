@@ -54,6 +54,7 @@ function Header(props) {
               placeholder="Search"
               onChange={handleChange}
               value={input}
+              autoComplete="off"
             />
           </div>
           {users.length > 0 && input && (

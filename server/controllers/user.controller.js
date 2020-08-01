@@ -287,6 +287,7 @@ module.exports.getUserData = async (req, res, next) => {
                 username: 1,
                 email: 1,
                 avatar: 1,
+                date: 1,
                 followings: {
                     $size: {
                         $arrayElemAt: ['$followings.followings', 0]

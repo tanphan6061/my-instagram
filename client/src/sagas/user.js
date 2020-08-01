@@ -1,4 +1,5 @@
 import { call, put, delay, takeLatest, takeEvery } from "redux-saga/effects";
+import { push } from "connected-react-router";
 
 import * as statusCode from "../constants/statusCode";
 import {
@@ -8,6 +9,9 @@ import {
   follow,
   getFollowingApi,
   getFollowerApi,
+  addAvatar,
+  updateProfile,
+  changePassword,
 } from "../apis/user";
 import * as userConstants from "../constants/user";
 import {
@@ -27,6 +31,12 @@ import {
   getFollowerUser,
   getFollowerUserSuccess,
   getFollowerUserFail,
+  addAvatarSuccess,
+  addAvatarFail,
+  updateProfileSuccess,
+  updateProfileFail,
+  changePasswordSuccess,
+  changePasswordFail,
 } from "../actions/user";
 import { refreshToken } from "../apis/auth";
 import { refreshTokenSuccess, refreshTokenFail } from "../actions/auth";
@@ -154,6 +164,59 @@ function* getFollowerUserSaga({ payload }) {
   }
 }
 
+function* addAvatarSaga({ payload }) {
+  try {
+    const { data } = payload;
+
+    const res = yield call(addAvatar, data);
+    const { status } = res;
+    if (status === statusCode.SUCCESS) {
+      yield put(addAvatarSuccess());
+    }
+  } catch (err) {
+    yield put(addAvatarFail(err.response?.data?.message));
+  }
+}
+
+function* updateProfileSaga({ payload }) {
+  try {
+    const { username, fullname, email, date, gender } = payload;
+
+    const res = yield call(updateProfile, {
+      username,
+      fullname,
+      email,
+      date,
+      gender,
+    });
+    const { status } = res;
+    if (status === statusCode.SUCCESS) {
+      yield put(updateProfileSuccess());
+    }
+  } catch (err) {
+    yield put(updateProfileFail(err.response?.data?.message));
+  }
+}
+
+function* changePasswordSaga({ payload }) {
+  try {
+    const { password, newPassword } = payload;
+
+    const res = yield call(changePassword, {
+      password,
+      newPassword,
+    });
+    const { status } = res;
+    if (status === statusCode.SUCCESS) {
+      yield put(changePasswordSuccess());
+      yield localStorage.clear();
+      yield put(push("/login"));
+    }
+  } catch (err) {
+    yield put(changePasswordFail(err.response?.data?.message));
+  }
+}
+
 function* sagas() {
   yield takeEvery(userConstants.GET_PROFILE, getProfileSaga);
   yield takeEvery(userConstants.GET_PROFILE_USER, getProfileUserSaga);
@@ -162,6 +225,9 @@ function* sagas() {
   yield takeLatest(userConstants.GET_FOLLOWING, getFollowingSaga);
   yield takeLatest(userConstants.GET_FOLLOWING_USER, getFollowingUserSaga);
   yield takeLatest(userConstants.GET_FOLLOWER_USER, getFollowerUserSaga);
+  yield takeEvery(userConstants.ADD_AVATAR, addAvatarSaga);
+  yield takeEvery(userConstants.UPDATE_PROFILE, updateProfileSaga);
+  yield takeEvery(userConstants.CHANGE_PASSWORD, changePasswordSaga);
 }
 
 export default sagas;

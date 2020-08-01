@@ -25,3 +25,15 @@ export const getFollowingApi = (data) => {
 export const getFollowerApi = (data) => {
   return axiosServices.post(`${ENDPOINT}/get-users-follower`, data);
 };
+
+export const addAvatar = (data) => {
+  return axiosServices.post(`${ENDPOINT}/add-avatar`, data);
+};
+
+export const updateProfile = (data) => {
+  return axiosServices.post(`${ENDPOINT}/update-profile`, data);
+};
+
+export const changePassword = (data) => {
+  return axiosServices.post(`${ENDPOINT}/change-password`, data);
+};

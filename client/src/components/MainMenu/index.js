@@ -23,19 +23,9 @@ import * as switchRouteAction from "../../actions/switchRoute";
 import * as authAction from "../../actions/auth";
 import * as uiAction from "../../actions/ui";
 
-const username = localStorage.getItem("username");
-
-const profile = {
-  top: [
-    { icon: Profile, name: "Profile", link: `/${username}` },
-    { icon: Saved, name: "Saved", link: `/${username}/saved` },
-    { icon: Setting, name: "Setting", link: "/accounts/edit" },
-  ],
-};
-
 function MainMenu(props) {
   const {
-    avatar,
+    mainProfile,
     auth,
     where,
     switchRouteCreators,
@@ -47,6 +37,14 @@ function MainMenu(props) {
   const { switchRoute } = switchRouteCreators;
   const { logout } = authActionCreators;
   const { toggleDropdownHeart, toggleDropdownProfile } = uiActionCreators;
+
+  const profile = {
+    top: [
+      { icon: Profile, name: "Profile", link: `/${mainProfile.username}` },
+      { icon: Saved, name: "Saved", link: `/${mainProfile.username}/saved` },
+      { icon: Setting, name: "Setting", link: "/accounts/edit" },
+    ],
+  };
 
   return (
     <div id="main-menu" style={{ width: "30%" }}>
@@ -102,7 +100,7 @@ function MainMenu(props) {
         {auth && (
           <Item style={{ cursor: "pointer", width: "8.5%" }}>
             <DropDown
-              src={avatar.avatar}
+              src={mainProfile.avatar}
               dropdown={dropdownProfile}
               toggleDropdown={toggleDropdownProfile}
             >
@@ -140,6 +138,11 @@ MainMenu.propTypes = {
   where: PropTypes.string,
   dropdownHeart: PropTypes.bool,
   dropdownProfile: PropTypes.bool,
+  mainProfile: PropTypes.shape({
+    username: PropTypes.string,
+    avatar: PropTypes.string,
+  }),
+
   switchRouteCreators: PropTypes.shape({
     switchRoute: PropTypes.func,
   }),
@@ -160,7 +163,7 @@ const mapStateToProps = (state) => {
     auth: state.auth.auth,
     dropdownHeart: state.ui.dropdownHeart,
     dropdownProfile: state.ui.dropdownProfile,
-    avatar: state.user.mainProfile,
+    mainProfile: state.user.mainProfile,
   };
 };
 

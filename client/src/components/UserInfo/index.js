@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 import PropTypes from "prop-types";
 
@@ -47,7 +48,11 @@ function UserInfoComponent(props) {
             <Username>{profile.username}</Username>
             {isCurrentLogin ? (
               <>
-                <EditProfile className="edit-profile">Edit Profile</EditProfile>
+                <EditProfile className="edit-profile">
+                  <Link to="/accounts/edit" style={{ color: "#262626" }}>
+                    Edit Profile
+                  </Link>
+                </EditProfile>
                 <div className="setting" style={setting}>
                   <img src={Setting} alt="setting" />
                 </div>

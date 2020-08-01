@@ -176,3 +176,80 @@ export const getFollowerUserFail = (error) => {
     },
   };
 };
+
+export const addAvatar = (data) => {
+  return {
+    type: constants.ADD_AVATAR,
+    payload: {
+      data,
+    },
+  };
+};
+
+export const addAvatarSuccess = () => {
+  return {
+    type: constants.ADD_AVATAR_SUCCESS,
+  };
+};
+
+export const addAvatarFail = (error) => {
+  return {
+    type: constants.ADD_AVATAR_FAIL,
+    payload: {
+      error,
+    },
+  };
+};
+
+export const updateProfile = (username, fullname, email, date, gender) => {
+  return {
+    type: constants.UPDATE_PROFILE,
+    payload: {
+      username,
+      fullname,
+      email,
+      date,
+      gender,
+    },
+  };
+};
+
+export const updateProfileSuccess = () => {
+  return {
+    type: constants.UPDATE_PROFILE_SUCCESS,
+  };
+};
+
+export const updateProfileFail = (error) => {
+  return {
+    type: constants.UPDATE_PROFILE_FAIL,
+    payload: {
+      error,
+    },
+  };
+};
+
+export const changePassword = (password, newPassword) => {
+  return {
+    type: constants.CHANGE_PASSWORD,
+    payload: {
+      password,
+      newPassword,
+    },
+  };
+};
+
+export const changePasswordSuccess = () => {
+  return {
+    type: constants.CHANGE_PASSWORD_SUCCESS,
+  };
+};
+
+export const changePasswordFail = (error) => {
+  return {
+    type: constants.CHANGE_PASSWORD_FAIL,
+    payload: {
+      error,
+    },
+  };
+};

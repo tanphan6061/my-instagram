@@ -29,6 +29,10 @@ img {
   cursor: pointer;
 }
 
+button:focus {
+  outline: 0;
+}
+
 body,
 html,
 #root {
@@ -341,4 +345,15 @@ main {
 
 .modal .item:last-child {
   border-bottom: 0;
+}
+
+.page-setting label {
+  font-weight: 500;
+  font-size: 15px;
+  text-align: right;
+  margin-right: 30px;
+}
+
+.app-web-setting-page h3.active {
+  border-bottom: 1px solid #262626;
 }

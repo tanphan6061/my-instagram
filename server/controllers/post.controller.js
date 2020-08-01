@@ -30,7 +30,7 @@ const lookup = [
             foreignField: 'post',
             as: 'comments',
         },
-    },
+    }
 ];
 
 const project = {

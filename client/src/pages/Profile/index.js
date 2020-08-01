@@ -17,7 +17,7 @@ import {
   Name,
   Username,
   Fullname,
-  Follow,
+  // Follow,
 } from "./styles";
 import { Posts, Igtv, Saved, Tagged } from "../../constants/svgs";
 import { PROFILE_ROUTES } from "../../constants/routes";
@@ -70,14 +70,15 @@ function Profile(props) {
   } = props;
   const { username } = match.params;
   const { getProfileUser, follow } = userActionCreators;
-  const currentLogin = localStorage.getItem("username");
-  const profile = currentLogin === username ? mainProfile : userProfile;
+  const profile = mainProfile.username === username ? mainProfile : userProfile;
 
   useEffect(() => {
-    if (currentLogin !== username) {
+    if (mainProfile.username !== username) {
       getProfileUser(username);
+    } else {
+      getProfileUser(mainProfile.username);
     }
-  }, [username, currentLogin, getProfileUser]);
+  }, [username, mainProfile.username, getProfileUser]);
 
   const toggleFollower = () => setModalFollower(!modalFollower);
   const toggleFollowing = () => setModalFollowing(!modalFollowing);
@@ -88,7 +89,7 @@ function Profile(props) {
         className="user-info"
         profile={profile}
         listFollowings={listFollowings}
-        isCurrentLogin={currentLogin === username}
+        isCurrentLogin={mainProfile.username === username}
         handleFollow={follow}
         toggleFollower={toggleFollower}
         toggleFollowing={toggleFollowing}
