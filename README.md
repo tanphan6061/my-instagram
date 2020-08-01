@@ -31,9 +31,9 @@ This page has features: **Show followers, followings, posts**. Static page: IGTV
 ### Error in this app!
 
 1. When login success you must **reload page** to can show new data.
-1. Because we use refresh token & access token, access token will expired in 5 minutes. After 5 minutes data can't show, you must **reload page** to can show data.
-2. In edit profile page, we can't show value in input. You must type full your information again to can edit profile (website, bio, phone number we don't save).
-3. This app can has some error i can't find it. You can test and help us report this.
+2. Because we use refresh token & access token, access token will expired in 5 minutes. After 5 minutes data can't show, you must **reload page** to can show data.
+3. In edit profile page, we can't show value in input. You must type full your information again to can edit profile (website, bio, phone number we don't save).
+4. This app can has some error i can't find it. You can test and help us report this.
 
 We sorry about that and we will fix soon.
 
@@ -43,7 +43,7 @@ In root directory & open terminal:
 - cd ../ -> cd client -> yarn -> yarn start
 
 ### Demo online:
-- APP: https://instagram-b042e.web.app/
+- APP: https://instagram-b66e3.web.app/
 - API: https://instagamproject.herokuapp.com/
 
 **Thanks for your reading. If you have ideal, find error or can fix error in our app. Please contact with one of us:**
