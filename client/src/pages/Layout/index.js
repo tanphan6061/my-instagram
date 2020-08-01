@@ -53,8 +53,10 @@ function Layout(props) {
   const { getProfile } = userActionCreators;
 
   useEffect(() => {
-    fetchPostsFollowing();
-    getProfile();
+    if (auth) {
+      fetchPostsFollowing();
+      getProfile();
+    }
     // eslint-disable-next-line
   }, []);
 
