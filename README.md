@@ -5,8 +5,6 @@ The app has a few features of instagram such as:
   - show profile, search user, edit profile, upload avatar
   - And static page: Direct, Explore, ...
 
-This app is result of CodersX's courses 2020. Many thanks to CodersX.
-
 ### My Demo!
 + Like the social network page. The first you see it's Login Page:
 
